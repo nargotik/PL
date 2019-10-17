@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#define DATABASE "database.db"
+#include "main.h"
 
 sqlite3 *db;
 sqlite3_stmt *stmt;
@@ -165,7 +164,7 @@ void DbInitialize() {
 void prepareAndInsertActor(char* text) {
     insertsCommit();
     // Divide o text por tabs
-    insertActor(str,"Daniel",1982,0,"","");
+    //insertActor(str,"Daniel",1982,0,"","");
 }
 
 /**
@@ -175,7 +174,7 @@ void prepareAndInsertActor(char* text) {
 void prepareAndInsertMovie(char* text) {
     insertsCommit();
     // Divide o text por tabs
-    insertMovie(str,"Daniel",1982,0,"","");
+    //insertMovie(str,"Daniel",1982,0,"","");
 }
 
 /**

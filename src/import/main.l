@@ -1,36 +1,47 @@
 	#include <stdio.h>
+	#include "main.h"
     int nr_movies=0,nr_actors=0;
-
-
-%x ACTOR MOVIE SKIPTAB
+    Actor _actor;
+    Movie _movie;
+%x ACTOR MOVIE MOVIE_titleType MOVIE_primaryTitle
 
 %%
-^[#]{3}.+[^\n] {
+[#]{3}.+$ {
     printf("\nComment Detected: %s\n", yytext);
 }
 
-^nm {
+\nnm {
     nr_actors++;
     BEGIN(ACTOR);
 }
-^tt {
+\ntt {
     nr_movies++;
     BEGIN(MOVIE);
 }
 
-<MOVIE>.+\t[^\n] {
-    yytext[sizeof(yytext - 1)] = '\0';
-    printf("%s\n",yytext);
+<MOVIE>[0-9]+\t {
+    //yytext[] = "\0";
+    yytext[strlen(yytext)-1] = '\0';
+    _movie.movie_id = yytext;
+    //printf("-%s-\ntam-%d\n",_movie.movie_id, strlen(yytext)-1);
+    BEGIN(MOVIE_titleType);
+}
+<MOVIE_titleType>[^\t]+\t {
+    //yytext[] = "\0";
+    printf("-%s-\ntam-%d\n",yytext, strlen(yytext)-1);
+    BEGIN(MOVIE_primaryTitle);
+}
+<MOVIE_primaryTitle>[^\t]+\t {
+    //yytext[] = "\0";
+    printf("-%s-\ntam-%d\n",yytext, strlen(yytext)-1);
 
+BEGIN(INITIAL);
 }
 
-<MOVIE>\n {
 
-    BEGIN(INITIAL);
-}
 
 <ACTOR>.+ {
-    prepareAndInsertActor(yytext);
+    //prepareAndInsertActor(yytext);
     BEGIN(INITIAL);
 }
 
