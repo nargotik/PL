@@ -15,13 +15,12 @@ const char insert_sql_movie[]  = "INSERT INTO movies(movie_id,titleType,primaryT
                           "                  VALUES (?, ?, ?, ?, ? ,? ,? ,?)";
 const char insert_sql_movies_genres[]  = "INSERT INTO movies_genres(movie_id,genre) VALUES (?, ?)";
 
+/* Variavel para controlar o numero de inserts entre COMITS*/
 int sql_inserts = 0;
+/* Numero de inserts entre COMITS*/
 const int sql_inserts_by_commit = 10000;
 
-
 extern int yylex();
-
-
 
 /**
  *
@@ -136,6 +135,7 @@ void DbInitialize() {
                 "    birthYear INTEGER NOT NULL,\n"
                 "    deathYear INTEGER NULL\n"
                 ");\n"
+                "CREATE INDEX idx_name ON actors (primaryName);\n"
                 "\n"
                 "DROP TABLE IF EXISTS actors_profession;\n"
                 "CREATE TABLE actors_profession (\n"
@@ -164,6 +164,7 @@ void DbInitialize() {
  */
 void prepareAndInsertActor(char* text) {
     insertsCommit();
+    // Divide o text por tabs
     insertActor(str,"Daniel",1982,0,"","");
 }
 
@@ -173,6 +174,7 @@ void prepareAndInsertActor(char* text) {
  */
 void prepareAndInsertMovie(char* text) {
     insertsCommit();
+    // Divide o text por tabs
     insertMovie(str,"Daniel",1982,0,"","");
 }
 
@@ -219,7 +221,7 @@ int DbDisconnect() {
 int yywrap()
 {
     // Chamado quando termina
-    printf("\n\n\nOlá fim\n\n\n");
+    //printf("\n\n\nOlá fim\n\n\n");
     return(1);
 }
 
@@ -256,4 +258,6 @@ int main()
     DbQuery("COMMIT");
 
     DbDisconnect();
+
+    return 0;
 }

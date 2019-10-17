@@ -1,5 +1,8 @@
 Libs necessárias
+```shell script
 apt-get install libsqlite3-dev
+```
+
 
 ```shell script
 ./bin/import < test_file.tsv
@@ -33,6 +36,7 @@ CREATE TABLE actors (
     birthYear INTEGER NOT NULL,
     deathYear INTEGER NULL
 );
+CREATE INDEX idx_name ON actors (primaryName);
 
 DROP TABLE IF EXISTS actors_profession;
 CREATE TABLE actors_profession (

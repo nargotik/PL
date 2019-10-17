@@ -9,17 +9,23 @@
     printf("\nComment Detected: %s\n", yytext);
 }
 
-[\n]nm {
+^nm {
     nr_actors++;
     BEGIN(ACTOR);
 }
-[\n]tt {
+^tt {
     nr_movies++;
     BEGIN(MOVIE);
 }
 
-<MOVIE>.+ {
-    prepareAndInsertMovie(yytext);
+<MOVIE>.+\t[^\n] {
+    yytext[sizeof(yytext - 1)] = '\0';
+    printf("%s\n",yytext);
+
+}
+
+<MOVIE>\n {
+
     BEGIN(INITIAL);
 }
 
