@@ -16,10 +16,42 @@ const char insert_sql_movies_genres[]  = "INSERT INTO movies_genres(movie_id,gen
 
 /* Variavel para controlar o numero de inserts entre COMITS*/
 int sql_inserts = 0;
+int sql_inserts_row = 0;
 /* Numero de inserts entre COMITS*/
-const int sql_inserts_by_commit = 10000;
+const int sql_inserts_by_commit = 100000;
 
 extern int yylex();
+
+/**
+ *
+ * @param _movie
+ * @param Genre
+ * @return
+ */
+int insertMovieGenre(Movie _movie, char* Genre) {
+    insertsCommit();
+    // Insere na tabela actors
+    sqlite3_stmt *res;
+    //movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes
+    rc = sqlite3_prepare_v2(db, insert_sql_movies_genres, -1, &res, 0);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_text(res, 1, _movie.movie_id,strlen(_movie.movie_id), NULL);
+        sqlite3_bind_text(res, 2, Genre,strlen(Genre), NULL);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s - %s\n", sqlite3_errmsg(db),_movie.movie_id);
+    }
+
+    rc = sqlite3_step(res);
+    if(SQLITE_DONE != rc) {
+        fprintf(stderr, "insert statement didn't return DONE (%i): %s -%s\n", rc, sqlite3_errmsg(db),_movie.movie_id);
+    } else {
+        //printf("INSERT completed\n\n");
+    }
+    sqlite3_finalize(res);
+
+    return 1;
+
+}
 
 /**
  *
@@ -34,15 +66,89 @@ extern int yylex();
  * @param genres
  * @return
  */
-int insertMovie(char* movie_id,char* titleType,char* primaryTitle,char* originalTitle,int isAdult,int startYear,int endYear,int runtimeMinutes,char* genres) {
+int insertMovie(Movie _movie) {
+    insertsCommit();
+    // Insere na tabela actors
+    sqlite3_stmt *res;
+    //movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes
+    rc = sqlite3_prepare_v2(db, insert_sql_movie, -1, &res, 0);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_text(res, 1, _movie.movie_id,strlen(_movie.movie_id), NULL);
+        sqlite3_bind_text(res, 2, _movie.titleType,strlen(_movie.titleType), NULL);
+        sqlite3_bind_text(res, 3, _movie.primaryTitle,strlen(_movie.primaryTitle), NULL);
+        sqlite3_bind_text(res, 4, _movie.originalTitle,strlen(_movie.originalTitle), NULL);
+        sqlite3_bind_int(res, 5, _movie.isAdult);
+        sqlite3_bind_int(res, 6, _movie.startYear);
+        sqlite3_bind_int(res, 7, _movie.endYear);
+        sqlite3_bind_int(res, 8, _movie.runtimeMinutes);
+
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s - %s\n", sqlite3_errmsg(db),_movie.movie_id);
+    }
+
+    rc = sqlite3_step(res);
+    if(SQLITE_DONE != rc) {
+        fprintf(stderr, "insert statement didn't return DONE (%i): %s -%s\n", rc, sqlite3_errmsg(db),_movie.movie_id);
+    } else {
+        //printf("INSERT completed\n\n");
+    }
+    sqlite3_finalize(res);
+    // Explode os professions por ,
+    // While para inserts na tabela dos actors_profession
+
+    // Explode os movies por ,
+    // While para inserts na tabela dos actors_movies
+    return 1;
+
+    return 1;
+}
+
+int insertActorProfession(Actor _actor, char* _profession) {
+    insertsCommit();
+    sqlite3_stmt *res;
+
+    rc = sqlite3_prepare_v2(db, insert_sql_actors_profession, -1, &res, 0);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_text(res, 1, _actor.actor_id,sizeof(_actor.actor_id), NULL);
+        sqlite3_bind_text(res, 2, _profession,sizeof(_profession), NULL);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
+
+    rc = sqlite3_step(res);
+    if(SQLITE_DONE != rc) {
+        fprintf(stderr, "insert statement didn't return DONE (%i): %s\n", rc, sqlite3_errmsg(db));
+    } else {
+        //printf("INSERT completed\n\n");
+    }
+    return 1;
+}
 
 
-    // Insere na tabela movies
+int insertActorMovie(Actor _actor, char* _movie) {
+    insertsCommit();
+    sqlite3_stmt *res;
 
-    // Explode dos genres por ,
+    rc = sqlite3_prepare_v2(db, insert_sql_actors_movies, -1, &res, 0);
+    if (rc == SQLITE_OK) {
+        sqlite3_bind_text(res, 1, _actor.actor_id,sizeof(_actor.actor_id), NULL);
+        sqlite3_bind_text(res, 2, _movie,sizeof(_movie), NULL);
+    } else {
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
+    }
 
-    // While para inserts na tabela dos movies_genres
+    rc = sqlite3_step(res);
+    if(SQLITE_DONE != rc) {
+        fprintf(stderr, "insert statement didn't return DONE (%i): %s\n", rc, sqlite3_errmsg(db));
+    } else {
+        //printf("INSERT completed\n\n");
+    }
 
+    // Explode os professions por ,
+    // While para inserts na tabela dos actors_profession
+
+    // Explode os movies por ,
+    // While para inserts na tabela dos actors_movies
     return 1;
 }
 
@@ -56,16 +162,18 @@ int insertMovie(char* movie_id,char* titleType,char* primaryTitle,char* original
  * @param movies
  * @return
  */
-int insertActor(char* actor_id,char* primaryName,int birthYear,int deathYear,char* professions,char* movies) {
+int insertActor(Actor _actor) {
+    // nm0000001	Fred Astaire	1899	1987	soundtrack,actor,miscellaneous	tt0072308,tt0043044,tt0050419,tt0053137
+    insertsCommit();
     // Insere na tabela actors
     sqlite3_stmt *res;
 
     rc = sqlite3_prepare_v2(db, insert_sql_actor, -1, &res, 0);
     if (rc == SQLITE_OK) {
-        sqlite3_bind_text(res, 1, actor_id,sizeof(actor_id), NULL);
-        sqlite3_bind_text(res, 2, primaryName,sizeof(primaryName), NULL);
-        sqlite3_bind_int(res, 3, birthYear);
-        sqlite3_bind_int(res, 4, deathYear);
+        sqlite3_bind_text(res, 1, _actor.actor_id,sizeof(_actor.actor_id), NULL);
+        sqlite3_bind_text(res, 2, _actor.primaryName,sizeof(_actor.primaryName), NULL);
+        sqlite3_bind_int(res, 3, _actor.birthYear);
+        sqlite3_bind_int(res, 4, _actor.deathYear);
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
     }
@@ -107,7 +215,13 @@ int DbQuery(char* sql) {
  * Inicializa a base de dados
  */
 void DbInitialize() {
-    char *sql = "BEGIN;\n"
+    char *sql = "PRAGMA main.page_size = 4096;\n"
+                "PRAGMA main.cache_size=10000;\n"
+                "PRAGMA main.locking_mode=EXCLUSIVE;\n"
+                "PRAGMA main.synchronous=NORMAL;\n"
+                "PRAGMA main.journal_mode=WAL;\n"
+                "PRAGMA main.cache_size=5000;\n"
+                "BEGIN;\n"
                 "DROP TABLE IF EXISTS movies;\n"
                 "CREATE TABLE movies (\n"
                 "    movie_id TEXT PRIMARY KEY,\n"
@@ -159,35 +273,18 @@ void DbInitialize() {
 
 /**
  *
- * @param text
- */
-void prepareAndInsertActor(char* text) {
-    insertsCommit();
-    // Divide o text por tabs
-    //insertActor(str,"Daniel",1982,0,"","");
-}
-
-/**
- *
- * @param text
- */
-void prepareAndInsertMovie(char* text) {
-    insertsCommit();
-    // Divide o text por tabs
-    //insertMovie(str,"Daniel",1982,0,"","");
-}
-
-/**
- *
  */
 void insertsCommit() {
-    if ((sql_inserts % sql_inserts_by_commit) == 0 || sql_inserts>sql_inserts_by_commit) {
+    sql_inserts++;
+    if ((sql_inserts % sql_inserts_by_commit) == 0  ) {
         // Commit
-        sql_inserts=0;
+        printf("%d\n",sql_inserts);
+        sql_inserts_row=0;
         DbQuery("COMMIT");
         DbQuery("BEGIN TRANSACTION");
     } else {
-        sql_inserts++;
+
+        sql_inserts_row++;
     }
 }
 

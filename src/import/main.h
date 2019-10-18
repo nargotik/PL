@@ -7,7 +7,9 @@
 
 #define DATABASE "database.db"
 
-typedef struct _movie {
+#define YYLMAX 1048576
+
+typedef struct {
     char* movie_id;
     char* titleType;
     char* primaryTitle;
@@ -18,11 +20,21 @@ typedef struct _movie {
     int runtimeMinutes;
 } Movie;
 
-typedef struct _actor {
+typedef struct  {
     char* actor_id;
     char* primaryName;
     int birthYear;
     int deathYear;
 } Actor;
+
+int insertMovie(Movie _movie);
+int DbQuery(char* sql);
+void DbInitialize();
+void insertsCommit();
+int DbConnect();
+int DbDisconnect();
+int insertMovieGenre(Movie _movie, char* Genre);
+int insertActorProfession(Actor _actor, char* _profession);
+int insertActorMovie(Actor _actor, char* _movie);
 
 #endif //PL_MAIN_H
