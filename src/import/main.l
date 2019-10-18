@@ -131,24 +131,28 @@
 }
 <ACTOR_knownForTitles_and_primaryProfession>[^tt]([^\t\,])+\, {
     yytext[strlen(yytext)-1] = '\0';
-    //printf("\n@%s@\n",yytext);
+    printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     insertActorProfession(tmp_actor, yytext);
 }
 <ACTOR_knownForTitles_and_primaryProfession>[^tt]([^\t\,])*\t {
     yytext[strcspn(yytext, "\t")] = 0;
-    //printf("\n@%s@\n",yytext);
+    printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     insertActorProfession(tmp_actor, yytext);
 }
 
 <ACTOR_knownForTitles_and_primaryProfession>tt([^\t\,])+\, {
     yytext[strlen(yytext)-1] = '\0';
-    //printf("\n-%s-\n",yytext);
-    insertActorMovie(tmp_actor, yytext);
+    char *_mid = strdup(yytext);
+    _mid += 2;
+    printf("\n-%s-%s-",yytext,tmp_actor.actor_id);
+    insertActorMovie(tmp_actor, _mid);
 }
 <ACTOR_knownForTitles_and_primaryProfession>tt([^\t\,])*\n {
     yytext[strcspn(yytext, "\r\n")] = 0;
-    //printf("\n-%s-\n",yytext);
-    insertActorMovie(tmp_actor, yytext);
+    char *_mid = strdup(yytext);
+    _mid += 2;
+    printf("\n-%s-%s-",yytext,tmp_actor.actor_id);
+    insertActorMovie(tmp_actor, _mid);
     BEGIN(INITIAL);
 }
 

@@ -8,11 +8,13 @@ sqlite3 *db;
 sqlite3_stmt *stmt;
 int rc;
 const char insert_sql_actor[]  = "INSERT INTO actors(actor_id,primaryName,birthYear,deathYear) VALUES (?, ?, ?, ?)";
-const char insert_sql_actors_profession[]  = "INSERT INTO actors_profession(actor_id,profession) VALUES (?, ?)";
-const char insert_sql_actors_movies[]  = "INSERT INTO actors_movies(actor_id,movie_id) VALUES (?, ?)";
+const char insert_sql_actors_profession[]  = "INSERT OR IGNORE INTO actors_profession(actor_id,profession) VALUES (?, ?)";
+const char insert_sql_actors_movies[]  = "INSERT OR IGNORE INTO actors_movies(actor_id,movie_id) VALUES (?, ?)";
 const char insert_sql_movie[]  = "INSERT INTO movies(movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes)"
                           "                  VALUES (?, ?, ?, ?, ? ,? ,? ,?)";
 const char insert_sql_movies_genres[]  = "INSERT INTO movies_genres(movie_id,genre) VALUES (?, ?)";
+
+int nr_movies=0,nr_actors=0;
 
 /* Variavel para controlar o numero de inserts entre COMITS*/
 int sql_inserts = 0;
@@ -29,6 +31,7 @@ extern int yylex();
  * @return
  */
 int insertMovieGenre(Movie _movie, char* Genre) {
+    return 1;
     insertsCommit();
     // Insere na tabela actors
     sqlite3_stmt *res;
@@ -67,6 +70,8 @@ int insertMovieGenre(Movie _movie, char* Genre) {
  * @return
  */
 int insertMovie(Movie _movie) {
+    nr_movies++;
+    return 1;
     insertsCommit();
     // Insere na tabela actors
     sqlite3_stmt *res;
@@ -163,6 +168,7 @@ int insertActorMovie(Actor _actor, char* _movie) {
  * @return
  */
 int insertActor(Actor _actor) {
+    nr_actors++;
     // nm0000001	Fred Astaire	1899	1987	soundtrack,actor,miscellaneous	tt0072308,tt0043044,tt0050419,tt0053137
     insertsCommit();
     // Insere na tabela actors
@@ -276,9 +282,11 @@ void DbInitialize() {
  */
 void insertsCommit() {
     sql_inserts++;
+    if (sql_inserts==1)
+        printf("Inserts\tMovies\tActors\n");
     if ((sql_inserts % sql_inserts_by_commit) == 0  ) {
         // Commit
-        printf("%d\n",sql_inserts);
+        printf("%d\t%d\t%d\n",sql_inserts,nr_movies,nr_actors);
         sql_inserts_row=0;
         DbQuery("COMMIT");
         DbQuery("BEGIN TRANSACTION");
