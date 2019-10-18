@@ -22,7 +22,9 @@ tt9768524	tvEpisode	Episode #1.442	Episode #1.442	0	2011	\N	\N	Drama
 
 
 ###  nconst	primaryName	birthYear	deathYear	primaryProfession	knownForTitles
-nm0000001	Fred Astaire	1899	1987	soundtrack,actor,miscellaneous	tt0072308,tt0043044,tt0050419,tt0053137
-nm0000002	Lauren Bacall	1924	2014	actress,soundtrack	tt0037382,tt0117057,tt0038355,tt0071877
-nm0000003	Brigitte Bardot	1934	\N	actress,soundtrack,producer	tt0059956,tt0049189,tt0054452,tt0057345
-nm0000004	John Belushi	1949	1982	actor,writer,soundtrack	tt0080455,tt0077975,tt0078723,tt0072562
+
+nm9993688	Stefania Zadra	\N	\N	miscellaneous	tt7310898
+nm9993689	Chris Bailey	\N	\N		\N
+nm9993690	David Jewell	\N	\N		tt7888884
+nm9993691	Ursula Gehrmann	\N	\N		tt7888884
+nm9993692	Shiela Martin	\N	\N		tt7888884

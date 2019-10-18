@@ -3,7 +3,7 @@
 	#include "main.h"
 
 
-%x ACTOR_actor_id ACTOR_primaryName ACTOR_knownForTitles_and_primaryProfession  ACTOR_deathYear ACTOR_birthYear   MOVIE_movie_id MOVIE_titleType MOVIE_primaryTitle MOVIE_originalTitle MOVIE_isAdult MOVIE_startYear MOVIE_endYear MOVIE_runtimeMinutes MOVIE_genres
+%x ACTOR_knownForTitles ACTOR_actor_id ACTOR_primaryName ACTOR_primaryProfession  ACTOR_deathYear ACTOR_birthYear   MOVIE_movie_id MOVIE_titleType MOVIE_primaryTitle MOVIE_originalTitle MOVIE_isAdult MOVIE_startYear MOVIE_endYear MOVIE_runtimeMinutes MOVIE_genres
 
 %%
     int nr_movies=0,nr_actors=0;
@@ -126,33 +126,54 @@
     tmp_str = strdup(yytext);
     tmp_actor.deathYear = atoi(&tmp_str);
     insertActor(tmp_actor);
-    BEGIN(ACTOR_knownForTitles_and_primaryProfession);
+    BEGIN(ACTOR_primaryProfession);
 
 }
-<ACTOR_knownForTitles_and_primaryProfession>[^tt]([^\t\,])+\, {
+<ACTOR_primaryProfession>([^\t\,])+\, {
     yytext[strlen(yytext)-1] = '\0';
-    printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
-    insertActorProfession(tmp_actor, yytext);
+
+
+    if (strcmp("\\N",yytext)!=0) {
+        insertActorProfession(tmp_actor, yytext);
+        printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
+    }
+
 }
-<ACTOR_knownForTitles_and_primaryProfession>[^tt]([^\t\,])*\t {
+<ACTOR_primaryProfession>([^\t\,])*\t {
     yytext[strcspn(yytext, "\t")] = 0;
     printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
-    insertActorProfession(tmp_actor, yytext);
+    if (strcmp("\\N",yytext)!=0) {
+        insertActorProfession(tmp_actor, yytext);
+        printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
+    }
+
+    BEGIN(ACTOR_knownForTitles);
+}
+<ACTOR_knownForTitles,ACTOR_primaryProfession>\n {
+    BEGIN(INITIAL);
 }
 
-<ACTOR_knownForTitles_and_primaryProfession>tt([^\t\,])+\, {
+<ACTOR_knownForTitles>tt([^\t\,])+\, {
     yytext[strlen(yytext)-1] = '\0';
     char *_mid = strdup(yytext);
     _mid += 2;
-    printf("\n-%s-%s-",yytext,tmp_actor.actor_id);
-    insertActorMovie(tmp_actor, _mid);
+
+    if (strcmp("\\N",_mid)!=0) {
+        insertActorMovie(tmp_actor, _mid);
+        printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
+    }
+
 }
-<ACTOR_knownForTitles_and_primaryProfession>tt([^\t\,])*\n {
+<ACTOR_knownForTitles>tt([^\t\,])*\n {
     yytext[strcspn(yytext, "\r\n")] = 0;
     char *_mid = strdup(yytext);
     _mid += 2;
-    printf("\n-%s-%s-",yytext,tmp_actor.actor_id);
-    insertActorMovie(tmp_actor, _mid);
+
+    if (strcmp("\\N",_mid)!=0) {
+        printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
+        insertActorMovie(tmp_actor, _mid);
+    }
+
     BEGIN(INITIAL);
 }
 

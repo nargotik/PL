@@ -31,7 +31,9 @@ extern int yylex();
  * @return
  */
 int insertMovieGenre(Movie _movie, char* Genre) {
-    return 1;
+
+    if (strlen(Genre) == 0)
+        return 1;
     insertsCommit();
     // Insere na tabela actors
     sqlite3_stmt *res;
@@ -71,7 +73,7 @@ int insertMovieGenre(Movie _movie, char* Genre) {
  */
 int insertMovie(Movie _movie) {
     nr_movies++;
-    return 1;
+
     insertsCommit();
     // Insere na tabela actors
     sqlite3_stmt *res;
@@ -109,6 +111,8 @@ int insertMovie(Movie _movie) {
 }
 
 int insertActorProfession(Actor _actor, char* _profession) {
+    if (strlen(_profession) == 0)
+        return 1;
     insertsCommit();
     sqlite3_stmt *res;
 
@@ -131,6 +135,8 @@ int insertActorProfession(Actor _actor, char* _profession) {
 
 
 int insertActorMovie(Actor _actor, char* _movie) {
+    if (strlen(_profession) == 0)
+        return 1;
     insertsCommit();
     sqlite3_stmt *res;
 
