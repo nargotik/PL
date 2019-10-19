@@ -135,16 +135,16 @@
 
     if (strcmp("\\N",yytext)!=0) {
         insertActorProfession(tmp_actor, yytext);
-        printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
+        //printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     }
 
 }
 <ACTOR_primaryProfession>([^\t\,])*\t {
     yytext[strcspn(yytext, "\t")] = 0;
-    printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
+    //printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     if (strcmp("\\N",yytext)!=0) {
         insertActorProfession(tmp_actor, yytext);
-        printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
+        //printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     }
 
     BEGIN(ACTOR_knownForTitles);
@@ -160,7 +160,7 @@
 
     if (strcmp("\\N",_mid)!=0) {
         insertActorMovie(tmp_actor, _mid);
-        printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
+        //printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
     }
 
 }
@@ -170,7 +170,7 @@
     _mid += 2;
 
     if (strcmp("\\N",_mid)!=0) {
-        printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
+        //printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
         insertActorMovie(tmp_actor, _mid);
     }
 

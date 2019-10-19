@@ -20,7 +20,7 @@ int nr_movies=0,nr_actors=0;
 int sql_inserts = 0;
 int sql_inserts_row = 0;
 /* Numero de inserts entre COMITS*/
-const int sql_inserts_by_commit = 100000;
+const int sql_inserts_by_commit = 50000;
 
 extern int yylex();
 
@@ -111,7 +111,7 @@ int insertMovie(Movie _movie) {
 }
 
 int insertActorProfession(Actor _actor, char* _profession) {
-    if (strlen(_profession) == 0)
+    if (strlen(_profession  ) == 0)
         return 1;
     insertsCommit();
     sqlite3_stmt *res;
@@ -135,7 +135,7 @@ int insertActorProfession(Actor _actor, char* _profession) {
 
 
 int insertActorMovie(Actor _actor, char* _movie) {
-    if (strlen(_profession) == 0)
+    if (strlen(_movie) == 0)
         return 1;
     insertsCommit();
     sqlite3_stmt *res;

@@ -36,5 +36,6 @@ int DbDisconnect();
 int insertMovieGenre(Movie _movie, char* Genre);
 int insertActorProfession(Actor _actor, char* _profession);
 int insertActorMovie(Actor _actor, char* _movie);
+int insertActor(Actor _actor);
 
 #endif //PL_MAIN_H
