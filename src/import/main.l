@@ -141,24 +141,24 @@
 
 <ACTOR_knownForTitles>tt([^\t\,])+\, {
     yytext[strlen(yytext)-1] = '\0';
-    char *_mid = strdup(yytext);
-    _mid += 2;
-    if (strcmp("\\N",_mid)!=0) {
-        insertActorMovie(tmp_actor, _mid);
+    //char *_mid = strdup(yytext);
+    //_mid += 2;
+    if (strcmp("\\N",yytext)!=0) {
+        insertActorMovie(tmp_actor, yytext);
     }
-    _mid -= 2;
-    free(_mid);
+    //_mid -= 2;
+    //free(_mid);
 
 }
 <ACTOR_knownForTitles>tt([^\t\,])*\n {
     yytext[strcspn(yytext, "\r\n")] = 0;
-    char *_mid = strdup(yytext);
-    _mid += 2;
-    if (strcmp("\\N",_mid)!=0) {
-        insertActorMovie(tmp_actor, _mid);
+    //char *_mid = strdup(yytext);
+    //_mid += 2;
+    if (strcmp("\\N",yytext)!=0) {
+        insertActorMovie(tmp_actor, yytext);
     }
-    _mid -= 2;
-    free(_mid);
+    //_mid -= 2;
+    //free(_mid);
     BEGIN(INITIAL);
 }
 
