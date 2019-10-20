@@ -15,7 +15,6 @@
     printf("\nComment Detected: %s\n", yytext);
 }
 
-
 ^tt {
     nr_movies++;
     tmp_movie.movie_id = "";
@@ -47,38 +46,32 @@
 <MOVIE_originalTitle>[^\t]+\t {
     yytext[strlen(yytext)-1] = '\0';
     tmp_movie.originalTitle = strdup(yytext);
-    //printf("%s\n",tmp_movie.movie_id);
     BEGIN(MOVIE_isAdult);
 }
 <MOVIE_isAdult>[^\t]+\t {
-    //@todo
+    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
     tmp_movie.isAdult = ((yytext-'0') > 0) ? yytext-'0' : 0;
-    //printf("%s\n",tmp_movie.movie_id);
     BEGIN(MOVIE_startYear);
 }
 <MOVIE_startYear>[^\t]+\t {
-    //@todo
+    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
     tmp_str = strdup(yytext);
     tmp_movie.startYear = atoi(&tmp_str);
-    //printf("%s\n",tmp_movie.movie_id);
     BEGIN(MOVIE_endYear);
 }
 <MOVIE_endYear>[^\t]+\t {
-    //@todo
+    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
     tmp_movie.endYear =((yytext-'0') > 0) ? yytext-'0' : 0;
-    //printf("%s\n",tmp_movie.movie_id);
     BEGIN(MOVIE_runtimeMinutes);
 }
 <MOVIE_runtimeMinutes>[^\t]+\t {
-    //@todo
+    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
     tmp_movie.runtimeMinutes = ((yytext-'0') > 0) ? yytext-'0' : 0;
-    //printf("runtimeMinutes: %s\n",tmp_movie.runtimeMinutes);
     insertMovie(tmp_movie);
-    //printf("%s\n",tmp_movie.movie_id);
     BEGIN(MOVIE_genres);
 }
 <MOVIE_genres>[^\t\,]+\, {
@@ -98,8 +91,8 @@
     nr_actors++;
     tmp_actor.actor_id = "";
     tmp_actor.primaryName = "";
-    tmp_actor.birthYear = "";
-    tmp_actor.deathYear = "";
+    tmp_actor.birthYear = 0;
+    tmp_actor.deathYear = 0;
     BEGIN(ACTOR_actor_id);
 }
 
@@ -114,39 +107,32 @@
     BEGIN(ACTOR_birthYear);
 }
 <ACTOR_birthYear>[^\t]+\t {
-    //@todo
+    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
     tmp_str = strdup(yytext);
     tmp_actor.birthYear = atoi(&tmp_str);
     BEGIN(ACTOR_deathYear);
 }
 <ACTOR_deathYear>[^\t]+\t {
-    //@todo
+    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
     tmp_str = strdup(yytext);
     tmp_actor.deathYear = atoi(&tmp_str);
     insertActor(tmp_actor);
     BEGIN(ACTOR_primaryProfession);
-
 }
 <ACTOR_primaryProfession>([^\t\,])+\, {
     yytext[strlen(yytext)-1] = '\0';
-
-
     if (strcmp("\\N",yytext)!=0) {
         insertActorProfession(tmp_actor, yytext);
-        //printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     }
 
 }
 <ACTOR_primaryProfession>([^\t\,])*\t {
     yytext[strcspn(yytext, "\t")] = 0;
-    //printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     if (strcmp("\\N",yytext)!=0) {
         insertActorProfession(tmp_actor, yytext);
-        //printf("\n@%s-%s@",yytext,tmp_actor.actor_id);
     }
-
     BEGIN(ACTOR_knownForTitles);
 }
 <ACTOR_knownForTitles,ACTOR_primaryProfession>\n {
@@ -157,23 +143,22 @@
     yytext[strlen(yytext)-1] = '\0';
     char *_mid = strdup(yytext);
     _mid += 2;
-
     if (strcmp("\\N",_mid)!=0) {
         insertActorMovie(tmp_actor, _mid);
-        //printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
     }
+    _mid -= 2;
+    free(_mid);
 
 }
 <ACTOR_knownForTitles>tt([^\t\,])*\n {
     yytext[strcspn(yytext, "\r\n")] = 0;
     char *_mid = strdup(yytext);
     _mid += 2;
-
     if (strcmp("\\N",_mid)!=0) {
-        //printf("\n-%s-%s-",_mid,tmp_actor.actor_id);
         insertActorMovie(tmp_actor, _mid);
     }
-
+    _mid -= 2;
+    free(_mid);
     BEGIN(INITIAL);
 }
 

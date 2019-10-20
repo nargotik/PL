@@ -20,7 +20,7 @@ int nr_movies=0,nr_actors=0;
 int sql_inserts = 0;
 int sql_inserts_row = 0;
 /* Numero de inserts entre COMITS*/
-const int sql_inserts_by_commit = 50000;
+const int sql_inserts_by_commit = 200000;
 
 extern int yylex();
 
@@ -96,17 +96,8 @@ int insertMovie(Movie _movie) {
     rc = sqlite3_step(res);
     if(SQLITE_DONE != rc) {
         fprintf(stderr, "insert statement didn't return DONE (%i): %s -%s\n", rc, sqlite3_errmsg(db),_movie.movie_id);
-    } else {
-        //printf("INSERT completed\n\n");
     }
     sqlite3_finalize(res);
-    // Explode os professions por ,
-    // While para inserts na tabela dos actors_profession
-
-    // Explode os movies por ,
-    // While para inserts na tabela dos actors_movies
-    return 1;
-
     return 1;
 }
 
@@ -155,11 +146,6 @@ int insertActorMovie(Actor _actor, char* _movie) {
         //printf("INSERT completed\n\n");
     }
 
-    // Explode os professions por ,
-    // While para inserts na tabela dos actors_profession
-
-    // Explode os movies por ,
-    // While para inserts na tabela dos actors_movies
     return 1;
 }
 
@@ -193,15 +179,7 @@ int insertActor(Actor _actor) {
     rc = sqlite3_step(res);
     if(SQLITE_DONE != rc) {
         fprintf(stderr, "insert statement didn't return DONE (%i): %s\n", rc, sqlite3_errmsg(db));
-    } else {
-        //printf("INSERT completed\n\n");
     }
-
-    // Explode os professions por ,
-    // While para inserts na tabela dos actors_profession
-
-    // Explode os movies por ,
-    // While para inserts na tabela dos actors_movies
     return 1;
 }
 
@@ -336,7 +314,7 @@ int yywrap()
 }
 
 
-int main()
+int main(int argc, char *argv[])
 {
     if (!DbConnect()) {
         printf("Error connecting database\n");
@@ -347,21 +325,7 @@ int main()
 
     DbQuery("BEGIN TRANSACTION");
 
-    /*DbQuery("BEGIN TRANSACTION");
-    for (int i = 1;i<=1000000;i++) {
-        if ((i%10000) == 0) {
-            printf("%d\n",i);
-            DbQuery("COMMIT");
-            DbQuery("BEGIN TRANSACTION");
-        }
 
-        char str[10];
-        sprintf(str, "%d", i);
-        insertActor(str,"Daniel",1982,0,"","");
-    }
-
-    DbQuery("COMMIT");
-*/
 
     while (yylex());
 
