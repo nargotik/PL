@@ -23,6 +23,7 @@ Libs necessárias instalação em ubuntu (pode variar com outras distribuições
 ```shell script
 apt-get install libsqlite3-dev
 ```
+Existe a necessidade de pelo menos 2Gb de memoria RAM para processar o ficheiro de teste fornecido pelo professor.
 ## Utilização
 
 ```shell script
@@ -73,4 +74,8 @@ CREATE TABLE actors_movies (
     PRIMARY KEY (actor_id , movie_id )
 );
 ```
+
+## Bibliografia
+- [Wikipedia [Flex] ]("https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)")
+- [GitHub Flex](https://github.com/westes/flex)
 
