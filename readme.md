@@ -1,14 +1,35 @@
-Libs necessárias
+# Trabalho Prático de PL
+
+O presente software foi desenvolvido no contexto académico e deve ser utilizado sem qualquer garantia por conta e risco do utilizador. 
+
+[![Build Status](https://travis-ci.com/nargotik/PL.svg?token=qNfqiYyxNzmWoPqpyHnZ&branch=master)](https://travis-ci.com/nargotik/PL)
+
+**Autores:** 
+- Óscar Silva <a14383@alunos.ipca.pt>
+- Daniel Filipe <a17442@alunos.ipca.pt>
+- José Moura <aXXXXX@alunos.ipca.pt> @todo
+
+## Introdução
+Para a realização deste trabalho foram utilizadas as ferramentas abaixo descritas:
+- flex (versão 2.6.0)
+- libsqlite3-dev
+- sqlite3 (Opcional) 
+
+Utilizamos uma motor de base de dados simples (sqlite) de forma a importar toda a informação contida no ficheiro de teste 
+para a base de dados e poder efectuar consultas de qualquer informação directamente na base de dados.
+
+## Requisitos
+Libs necessárias instalação em ubuntu (pode variar com outras distribuições)
 ```shell script
 apt-get install libsqlite3-dev
 ```
-
+## Utilização
 
 ```shell script
 ./bin/import < test_file.tsv
 ```
 
-Base de dados:
+## Estrutura de Base de dados:
 ```sql
 DROP TABLE IF EXISTS movies;
 CREATE TABLE movies (
