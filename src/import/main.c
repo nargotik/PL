@@ -121,6 +121,7 @@ int insertActorProfession(Actor _actor, char* _profession) {
     } else {
         //printf("INSERT completed\n\n");
     }
+    sqlite3_finalize(res);
     return 1;
 }
 
@@ -145,7 +146,7 @@ int insertActorMovie(Actor _actor, char* _movie) {
     } else {
         //printf("INSERT completed\n\n");
     }
-
+    sqlite3_finalize(res);
     return 1;
 }
 
@@ -180,6 +181,7 @@ int insertActor(Actor _actor) {
     if(SQLITE_DONE != rc) {
         fprintf(stderr, "insert statement didn't return DONE (%i): %s\n", rc, sqlite3_errmsg(db));
     }
+    sqlite3_finalize(res);
     return 1;
 }
 
