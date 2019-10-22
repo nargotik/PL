@@ -2,29 +2,35 @@
 
 
 ### tconst	titleType	primaryTitle	originalTitle	isAdult	startYear	endYear	runtimeMinutes	genres
-tt0000001	short	Carmencita	Carmencita	0	1894	\N	1	Documentary,Short
-tt0000002	short	Le clown et ses chiens	Le clown et ses chiens	0	1892	\N	5	Animation,Short
-tt0000003	short	Pauvre Pierrot	Pauvre Pierrot	0	1892	\N	4	Animation,Comedy,Romance
-tt0000004	short	Un bon bock	Un bon bock	0	1892	\N	\N	Animation,Short
-tt0000005	short	Blacksmith Scene	Blacksmith Scene	0	1893	\N	1	Comedy,Short
-tt0000006	short	Chinese Opium Den	Chinese Opium Den	0	1894	\N	1	Short
-tt0000007	short	Corbett and Courtney Before the Kinetograph	Corbett and Courtney Before the Kinetograph	0	1894	\N	1	Short,Sport
-tt0000008	short	Edison Kinetoscopic Record of a Sneeze	Edison Kinetoscopic Record of a Sneeze	0	1894	\N	1	Documentary,Short
-tt0000009	movie	Miss Jerry	Miss Jerry	0	1894	\N	45	Romance
-tt0000010	short	Exiting the Factory	La sortie de l'usine Lumière à Lyon	0	1895	\N	1	Documentary,Short
-tt0000011	short	Akrobatisches Potpourri	Akrobatisches Potpourri	0	1895	\N	1	Documentary,Short
-tt0000012	short	The Arrival of a Train	L'arrivée d'un train à La Ciotat	0	1896	\N	1	Action,Documentary,Short
-tt9768518	tvEpisode	T.J. Houshmandzadeh	T.J. Houshmandzadeh	0	2019	\N	\N	Sport,Talk-Show
-tt9768520	tvEpisode	Episode #1.441	Episode #1.441	0	2011	\N	\N	Drama
-tt9768522	tvEpisode	Episode #1.443	Episode #1.443	0	2011	\N	\N	Drama
-tt9768524	tvEpisode	Episode #1.442	Episode #1.442	0	2011	\N	\N	Drama
-
+tt7310898	tvSeries	Whitefall	Whitefall	0	2019	\N	\N	Mystery,Thriller
+tt7888884	tvMovie	Truth and Lies: Waco	Truth and Lies: Waco	0	2018	\N	\N	Documentary
+tt7606042	tvSeries	Triptiek II	Triptiek II	0	1997	1997	48	Drama
+tt10117300	tvSeries	Hlala Kwabafileyo	Hlala Kwabafileyo	0	1992	1992	25	Drama
+tt0035310	movie	Sexlingar	Sexlingar	0	1942	\N	95	Comedy
+tt7564342	tvSeries	Die Sonkring	Die Sonkring	0	1991	1991	46	Drama
+tt9641026	tvSeries	Bad Jokes	Bad Jokes	0	2018	\N	\N	Comedy
+tt1284596	movie	Walking on Dead Fish	Walking on Dead Fish	0	2008	\N	\N	Documentary
+tt10968408	tvSeries	Simms & Lefkoe: The Show	Simms & Lefkoe: The Show	0	2018	2019	\N	Sport
+tt5510434	tvSeries	Callaway Live	Callaway Live	0	2015	\N	\N	Short
+tt2779276	short	Mark	Mark	0	2012	\N	5	Drama,Family,Short
+tt0490136	short	Go Time!	Go Time!	0	2005	\N	\N	Comedy,Short
+tt1282040	movie	Drowning in Actors	Drowning in Actors	0	2008	\N	88	Comedy
+tt0226941	movie	La lechería	La lechería	0	1986	\N	75	Comedy
+tt8777710	short	Walkin' the Way	Walkin' the Way	0	2018	\N	\N	Drama,Short
+tt7593758	movie	Role Prey	Role Prey	0	\N	\N	98	Comedy,Drama,Musical
+tt0165029	tvSeries	Harjunpää ja heimolaiset	Harjunpää ja heimolaiset	0	1995	\N	161	\N
 
 
 ###  nconst	primaryName	birthYear	deathYear	primaryProfession	knownForTitles
 
+nm10485328	Oscar Silva	\N	\N	actor	tt0165029
+nm0868678	Jesús Daniel Torres	\N	\N	actor	tt0226941
+nm10017567	Daniel Torres	\N	\N	actor	tt8777710,tt7593758
 nm9993688	Stefania Zadra	\N	\N	miscellaneous	tt7310898
 nm9993689	Chris Bailey	\N	\N		\N
 nm9993690	David Jewell	\N	\N		tt7888884
 nm9993691	Ursula Gehrmann	\N	\N		tt7888884
 nm9993692	Shiela Martin	\N	\N		tt7888884
+nm2095795	Julia Lawson	\N	\N	editor	tt7606042,tt10117300,tt0353101,tt7564342
+nm2095796	Reggie Bush	1985	\N	actor,producer	tt9641026,tt1284596,tt10968408,tt5510434
+nm2095797	Jennifer Watkins	\N	\N	actress	tt2779276,tt0490136,tt1282040

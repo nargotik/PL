@@ -109,8 +109,8 @@ int insertActorProfession(Actor _actor, char* _profession) {
 
     rc = sqlite3_prepare_v2(db, insert_sql_actors_profession, -1, &res, 0);
     if (rc == SQLITE_OK) {
-        sqlite3_bind_text(res, 1, _actor.actor_id,sizeof(_actor.actor_id), NULL);
-        sqlite3_bind_text(res, 2, _profession,sizeof(_profession), NULL);
+        sqlite3_bind_text(res, 1, _actor.actor_id,strlen(_actor.actor_id), NULL);
+        sqlite3_bind_text(res, 2, _profession,strlen(_profession), NULL);
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
     }
@@ -134,8 +134,8 @@ int insertActorMovie(Actor _actor, char* _movie) {
 
     rc = sqlite3_prepare_v2(db, insert_sql_actors_movies, -1, &res, 0);
     if (rc == SQLITE_OK) {
-        sqlite3_bind_text(res, 1, _actor.actor_id,sizeof(_actor.actor_id), NULL);
-        sqlite3_bind_text(res, 2, _movie,sizeof(_movie), NULL);
+        sqlite3_bind_text(res, 1, _actor.actor_id,strlen(_actor.actor_id), NULL);
+        sqlite3_bind_text(res, 2, _movie,strlen(_movie), NULL);
     } else {
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
     }
@@ -169,8 +169,8 @@ int insertActor(Actor _actor) {
 
     rc = sqlite3_prepare_v2(db, insert_sql_actor, -1, &res, 0);
     if (rc == SQLITE_OK) {
-        sqlite3_bind_text(res, 1, _actor.actor_id,sizeof(_actor.actor_id), NULL);
-        sqlite3_bind_text(res, 2, _actor.primaryName,sizeof(_actor.primaryName), NULL);
+        sqlite3_bind_text(res, 1, _actor.actor_id,strlen(_actor.actor_id), NULL);
+        sqlite3_bind_text(res, 2, _actor.primaryName,strlen(_actor.primaryName), NULL);
         sqlite3_bind_int(res, 3, _actor.birthYear);
         sqlite3_bind_int(res, 4, _actor.deathYear);
     } else {
@@ -316,7 +316,7 @@ int yywrap()
 }
 
 
-int main(int argc, char *argv[])
+int main()
 {
     if (!DbConnect()) {
         printf("Error connecting database\n");

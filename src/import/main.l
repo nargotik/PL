@@ -104,6 +104,7 @@
 <ACTOR_primaryName>[^\t]+\t {
     yytext[strlen(yytext)-1] = '\0';
     tmp_actor.primaryName = strdup(yytext);
+
     BEGIN(ACTOR_birthYear);
 }
 <ACTOR_birthYear>[^\t]+\t {
@@ -155,7 +156,7 @@
     char *_mid = strdup(yytext);
     _mid += 2;
     if (strcmp("\\N",_mid)!=0) {
-        insertActorMovie(tmp_actor, yytext);
+        insertActorMovie(tmp_actor, _mid);
     }
     _mid -= 2;
     free(_mid);
