@@ -327,8 +327,6 @@ int main()
 
     DbQuery("BEGIN TRANSACTION");
 
-
-
     while (yylex());
 
     DbQuery("COMMIT");
