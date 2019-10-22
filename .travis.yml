@@ -1,1 +1,5 @@
-script: make
+script:
+  - make
+  - ./bin/import < test_file.tsv
+  - ls -la *
+  - ./bin/display
