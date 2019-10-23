@@ -77,6 +77,37 @@ Showing info from database
 * Ursula Gehrmann
 utilizador@lesi-ipca:~/PL$ 
 ```
+Após testes feito em uma maquina virtual ubuntu com 8Gb de ram verificamos que o tratamento do ficheiro fornecido pelo professor e colocação desses dados em base de dados demorou:
+- Filmes - 4 Minutos
+- Actores - 20 Minutos
+
+## Diagrama da estrutura do flex utilizado.
+@todo explicar o abaixo
+
+- INITIAL
+
+- MOVIE 
+    - MOVIE_movie_id 
+        - MOVIE_titleType
+            - MOVIE_primaryTitle 
+                - MOVIE_originalTitle 
+                    - MOVIE_isAdult 
+                        - MOVIE_startYear 
+                            - MOVIE_endYear 
+                                - MOVIE_runtimeMinutes 
+                                    - MOVIE_genres 
+                                        - MOVIE_genres
+- ACTOR
+    - ACTOR_actor_id
+        - ACTOR_primaryName
+            - ACTOR_birthYear
+                - ACTOR_deathYear
+                    - ACTOR_primaryProfession
+                        - ACTOR_primaryProfession
+                            - ACTOR_knownForTitles
+                                - ACTOR_knownForTitles
+
+- <\<EOF\>>
 
 ## Estrutura de Base de dados:
 ```sql
@@ -122,6 +153,34 @@ CREATE TABLE actors_movies (
     PRIMARY KEY (actor_id , movie_id )
 );
 ```
+
+## Conclusão
+Podemos mostrar desta forma a importancia das expressões regulares e aplicações do 
+genero do flex pois conseguimos tratar de um enorme ficheiro com 18 milhoes de registos e colocar numa base de dados para tratamento posterior e armazenamento dos dados.
+
+Hoje em dia cada vez mais há necesidades de migração de sistemas antigos ou de dados para sistemas organizados do genero de bases de dados e podemos utilizar esta ferramenta flex como outras ferramentas que utilizem expressões regulares.
+
+Assim sendo tarefas como data minning podem ser muito utilizadas com o uso de expressões regulares.
+
+Abaixo mostramos alguns exemplo de dados complexos que podemos retirar depois de ter a informação normalizada.
+
+#### Exemplos de extração de dados:
+Se quisermos saber o numero de actores que participaram em filmes de drama realizados em 2012
+Bastará correr esta Query SQL.
+```sql
+SELECT Count(*) AS filmes 
+FROM   movies, 
+       movies_genres, 
+       actors, 
+       actors_movies 
+WHERE  actors_movies.movie_id = movies.movie_id 
+       AND actors.actor_id = actors_movies.actor_id 
+       AND movies.movie_id = movies_genres.movie_id 
+       AND movies_genres.genre = "Drama" 
+       AND movies.startyear = 2012 
+GROUP  BY actors.actor_id; 
+```
+
 
 ## Bibliografia
 - [GitHub Flex](https://github.com/westes/flex)
