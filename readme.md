@@ -33,20 +33,17 @@ $ make
 Para efectuar a importação do ficheiro fornecido utilizamos o comando abaixo.
 ```shell script
 utilizador@lesi-ipca:~/PL$ ./bin/import < test_file.tsv
-
-
-
-
+[...]
 Comment Detected: ### tconst    titleType       primaryTitle    originalTitle   isAdult startYear       endYear runtimeMinutes  genres
-
+[...]
 Inserts Movies  Actors
-
+[...]
 Comment Detected: ###  nconst   primaryName     birthYear       deathYear       primaryProfession       knownForTitles
-
-
-\N
- Movies:17
- Actors:11
+[...]
+.\N\N\N\N\N...
+[...]
+ Movies:6223386 
+ Actors:9626431 
 utilizador@lesi-ipca:~/PL$
 ```
 
