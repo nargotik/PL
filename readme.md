@@ -165,17 +165,19 @@ Abaixo mostramos alguns exemplo de dados complexos que podemos retirar depois de
 Se quisermos saber o numero de actores que participaram em filmes de drama realizados em 2012
 Bastará correr esta Query SQL.
 ```sql
-SELECT Count(*) AS filmes 
-FROM   movies, 
-       movies_genres, 
-       actors, 
-       actors_movies 
-WHERE  actors_movies.movie_id = movies.movie_id 
-       AND actors.actor_id = actors_movies.actor_id 
-       AND movies.movie_id = movies_genres.movie_id 
-       AND movies_genres.genre = "Drama" 
-       AND movies.startyear = 2012 
-GROUP  BY actors.actor_id; 
+SELECT Sum(filmes) 
+FROM   ( 
+                SELECT   Count(*) AS filmes 
+                FROM     movies, 
+                         movies_genres, 
+                         actors, 
+                         actors_movies 
+                WHERE    actors_movies.movie_id = movies.movie_id 
+                AND      actors.actor_id = actors_movies.actor_id 
+                AND      movies.movie_id = movies_genres.movie_id 
+                AND      movies_genres.genre = "drama" 
+                AND      movies.startyear = 2012 
+                GROUP BY actors.actor_id) a;
 ```
 
 
