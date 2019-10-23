@@ -136,6 +136,7 @@
     if (strcmp("\\N",tmp_str) != 0) {
         tmp_actor.deathYear = atoi(tmp_str);
     }
+    insertActor(tmp_actor);
     BEGIN(ACTOR_primaryProfession);
 }
 <ACTOR_primaryProfession>([^\t\,])+\, {
