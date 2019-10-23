@@ -25,7 +25,7 @@ const int sql_inserts_by_commit = 200000;
 extern int yylex();
 
 /**
- *
+ * todo documentar
  * @param _movie
  * @param Genre
  * @return
@@ -59,16 +59,8 @@ int insertMovieGenre(Movie _movie, char* Genre) {
 }
 
 /**
- *
- * @param movie_id
- * @param titleType
- * @param primaryTitle
- * @param originalTitle
- * @param isAdult
- * @param startYear
- * @param endYear
- * @param runtimeMinutes
- * @param genres
+ * todo documentar
+ * @param _movie
  * @return
  */
 int insertMovie(Movie _movie) {
@@ -101,6 +93,12 @@ int insertMovie(Movie _movie) {
     return 1;
 }
 
+/**
+ * todo documentar
+ * @param _actor
+ * @param _profession
+ * @return
+ */
 int insertActorProfession(Actor _actor, char* _profession) {
     if (strlen(_profession  ) == 0)
         return 1;
@@ -125,7 +123,12 @@ int insertActorProfession(Actor _actor, char* _profession) {
     return 1;
 }
 
-
+/**
+ * todo documentar
+ * @param _actor
+ * @param _movie
+ * @return
+ */
 int insertActorMovie(Actor _actor, char* _movie) {
     if (strlen(_movie) == 0)
         return 1;
@@ -151,13 +154,8 @@ int insertActorMovie(Actor _actor, char* _movie) {
 }
 
 /**
- *
- * @param actor_id
- * @param primaryName
- * @param birthYear
- * @param deathYear
- * @param professions
- * @param movies
+ * todo documentar
+ * @param _actor
  * @return
  */
 int insertActor(Actor _actor) {
@@ -186,7 +184,7 @@ int insertActor(Actor _actor) {
 }
 
 /**
- *
+ * todo documentar
  * @param sql
  * @return
  */
@@ -264,7 +262,7 @@ void DbInitialize() {
 }
 
 /**
- *
+ * Faz commits a cada [sql_inserts_by_commit] iterações
  */
 void insertsCommit() {
     sql_inserts++;
@@ -283,8 +281,8 @@ void insertsCommit() {
 }
 
 /**
- *
- * @return
+ * Conecta à base de dados [DATABASE]
+ * @return success=1 / fail != 1
  */
 int DbConnect() {
 
@@ -300,19 +298,12 @@ int DbConnect() {
 }
 
 /**
- *
- * @return
+ * Disconecta da base de dados
+ * @return success=1 / fail != 1
  */
 int DbDisconnect() {
     sqlite3_close(db);
     return 1;
-}
-
-int yywrap()
-{
-    // Chamado quando termina
-    //printf("\n\n\nOlá fim\n\n\n");
-    return(1);
 }
 
 

@@ -49,28 +49,41 @@
     BEGIN(MOVIE_isAdult);
 }
 <MOVIE_isAdult>[^\t]+\t {
-    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
-    tmp_movie.isAdult = ((yytext-'0') > 0) ? yytext-'0' : 0;
+    tmp_str = (char*) malloc(strlen(yytext));
+    tmp_str = strdup(yytext);
+    if (strcmp("\\N",tmp_str) != 0) {
+          tmp_movie.isAdult = atoi(tmp_str);
+    }
     BEGIN(MOVIE_startYear);
 }
 <MOVIE_startYear>[^\t]+\t {
-    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
+    tmp_str = (char*) malloc(strlen(yytext));
     tmp_str = strdup(yytext);
-    tmp_movie.startYear = atoi(&tmp_str);
+    if (strcmp("\\N",tmp_str) != 0) {
+         tmp_movie.startYear = atoi(tmp_str);
+    }
+
     BEGIN(MOVIE_endYear);
 }
 <MOVIE_endYear>[^\t]+\t {
-    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
-    tmp_movie.endYear =((yytext-'0') > 0) ? yytext-'0' : 0;
+    tmp_str = (char*) malloc(strlen(yytext));
+    tmp_str = strdup(yytext);
+    if (strcmp("\\N",tmp_str) != 0) {
+         tmp_movie.endYear = atoi(tmp_str);
+    }
     BEGIN(MOVIE_runtimeMinutes);
 }
 <MOVIE_runtimeMinutes>[^\t]+\t {
-    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
-    tmp_movie.runtimeMinutes = ((yytext-'0') > 0) ? yytext-'0' : 0;
+    tmp_str = (char*) malloc(strlen(yytext));
+    tmp_str = strdup(yytext);
+    if (strcmp("\\N",tmp_str) != 0) {
+         tmp_movie.runtimeMinutes = atoi(tmp_str);
+    }
+
     insertMovie(tmp_movie);
     BEGIN(MOVIE_genres);
 }
@@ -108,18 +121,21 @@
     BEGIN(ACTOR_birthYear);
 }
 <ACTOR_birthYear>[^\t]+\t {
-    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
+    tmp_str = (char*) malloc(strlen(yytext));
     tmp_str = strdup(yytext);
-    tmp_actor.birthYear = atoi(&tmp_str);
+    if (strcmp("\\N",tmp_str) != 0) {
+        tmp_actor.birthYear = atoi(tmp_str);
+    }
     BEGIN(ACTOR_deathYear);
 }
 <ACTOR_deathYear>[^\t]+\t {
-    //@todo convert char to int
     yytext[strlen(yytext)-1] = '\0';
+    tmp_str = (char*) malloc(strlen(yytext));
     tmp_str = strdup(yytext);
-    tmp_actor.deathYear = atoi(&tmp_str);
-    insertActor(tmp_actor);
+    if (strcmp("\\N",tmp_str) != 0) {
+        tmp_actor.deathYear = atoi(tmp_str);
+    }
     BEGIN(ACTOR_primaryProfession);
 }
 <ACTOR_primaryProfession>([^\t\,])+\, {

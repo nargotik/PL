@@ -24,10 +24,58 @@ Libs necessárias instalação em ubuntu (pode variar com outras distribuições
 apt-get install libsqlite3-dev
 ```
 Existe a necessidade de pelo menos 2Gb de memoria RAM para processar o ficheiro de teste fornecido pelo professor.
-## Utilização
+## Utilização / Compilação
+Para compilar as aplicações necessárias simplesmente é necessário efectuar o comando:
+```shell script
+$ make
+```
+
+Para efectuar a importação do ficheiro fornecido utilizamos o comando abaixo.
+```shell script
+utilizador@lesi-ipca:~/PL$ ./bin/import < test_file.tsv
+
+
+
+
+Comment Detected: ### tconst    titleType       primaryTitle    originalTitle   isAdult startYear       endYear runtimeMinutes  genres
+
+Inserts Movies  Actors
+
+Comment Detected: ###  nconst   primaryName     birthYear       deathYear       primaryProfession       knownForTitles
+
+
+\N
+ Movies:17
+ Actors:11
+utilizador@lesi-ipca:~/PL$
+```
+
+Para efectuarmos a listagem do pedido apenas teremos de executar a aplicação display como mostrado abaixo:
 
 ```shell script
-./bin/import < test_file.tsv
+utilizador@lesi-ipca:~/PL$ ./bin/display
+Showing info from database
+
+* Chris Bailey
+* Daniel Torres
+         - Walkin' the Way
+* David Jewell
+* Jennifer Watkins
+         - Go Time!
+         - Mark
+* Jesús Daniel Torres
+* Julia Lawson
+         - Hlala Kwabafileyo
+         - Triptiek II
+* Oscar Silva
+* Reggie Bush
+         - Bad Jokes
+         - Simms & Lefkoe: The Show
+         - Walking on Dead Fish
+* Shiela Martin
+* Stefania Zadra
+* Ursula Gehrmann
+utilizador@lesi-ipca:~/PL$ 
 ```
 
 ## Estrutura de Base de dados:
@@ -76,6 +124,5 @@ CREATE TABLE actors_movies (
 ```
 
 ## Bibliografia
-- [Wikipedia [Flex] ]("https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)")
 - [GitHub Flex](https://github.com/westes/flex)
 
