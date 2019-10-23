@@ -44,6 +44,10 @@ Comment Detected: ###  nconst   primaryName     birthYear       deathYear       
 [...]
  Movies:6223386 
  Actors:9626431 
+utilizador@lesi-ipca:~/PL$ ls -lah
+[...]
+-rw-r--r--  1 utilizador  utilizador       3,1G out 23 23:28 database.db
+[...]
 utilizador@lesi-ipca:~/PL$
 ```
 
