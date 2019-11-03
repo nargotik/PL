@@ -1,15 +1,21 @@
+language: cpp
+
+sudo: enabled
+
 branches:
   only:
     - master
 
 before_install:
-  - sudo apt-get install python-software-properties
-  - sudo apt-add-repository -y ppa:libreoffice/libreoffice-6-3
-  - sudo apt-get update -q
-  - sudo apt-get install -y -qq lcov curl doxygen graphviz
+  - sudo apt-get update
+  - sudo apt-get install -y doxygen
+  - sudo apt-get install texlive texlive-latex-extra
 
 script:
   - doxygen Doxyfile
+  - cd docs/latex
+  - make
+  - ce ../../
   - make
   - make run_import
   - ls -la *
