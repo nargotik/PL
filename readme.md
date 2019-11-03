@@ -9,9 +9,6 @@ O presente software foi desenvolvido no contexto académico e deve ser utilizado
 - Óscar Silva <a14383@alunos.ipca.pt>
 - Daniel Filipe <a17442@alunos.ipca.pt>
 
-**Documentação Dogygen:**
-- https://nargotik.github.io/PL/
-
 ## Introdução
 Para a realização deste trabalho foram utilizadas as ferramentas abaixo descritas:
 - flex (versão 2.6.0)
