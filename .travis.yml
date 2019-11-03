@@ -29,6 +29,7 @@ addons:
       - texlive-latex-extra
       - libsqlite3-dev
       - flex
+      - libfl-dev
 
 
 script:
