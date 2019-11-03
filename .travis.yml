@@ -1,8 +1,37 @@
 os: linux
-dist: xenial
+dist: trusty
 language: cpp
 
 sudo: enabled
+
+before_install:
+
+  - export DOXYGEN_VER=doxygen-1.8.16
+  - export DOXYGEN_TAR=${DOXYGEN_VER}.linux.bin.tar.gz
+  - export DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/${DOXYGEN_TAR}"
+
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+  - echo "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty main" | sudo tee -a /etc/apt/sources.list
+  - echo "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main" | sudo tee -a /etc/apt/sources.list
+
+  - sudo add-apt-repository --yes ppa:ricotz/testing
+  - sudo add-apt-repository --yes ppa:george-edison55/cmake-3.x
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq $SUPPORT $PACKAGE
+  - sudo apt-get install -qq cmake libboost1.55-all-dev libboost-log1.55-dev libcairo2-dev libpng12-dev asciidoc
+
+  - export CC=${REAL_CC} CXX=${REAL_CXX}
+
+before_script:
+  - sudo pip install ghp-import
+  - wget -O - "${DOXYGEN_URL}" | tar xz -C ${TMPDIR-/tmp} ${DOXYGEN_VER}/bin/doxygen
+  - export PATH="${TMPDIR-/tmp}/${DOXYGEN_VER}/bin:$PATH"
+  - mkdir build
+  - cd build
+  - cmake .. -DBUILD_TESTING=ON
+
+
 
 branches:
   only:
