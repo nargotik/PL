@@ -13,9 +13,9 @@ before_install:
 
 script:
   - doxygen Doxyfile
-  - cd docs/latex
-  - make
-  - ce ../../
+  - cd docs/latex && make
+  - mv docs/latex/refman.pdf docs/html/Documentation.pdf
+  - rm -r docs/latex
   - make
   - make run_import
   - ls -la *
