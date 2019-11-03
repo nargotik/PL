@@ -1,0 +1,811 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_import_2main_8c">
+<title>Referência ao ficheiro src/import/main.c</title>
+<indexterm><primary>src/import/main.c</primary></indexterm>
+<para>
+
+<para>Ficheiro c aplicação Esta aplicação irá utilizar o ficheiro <link linkend="_main_8l">main.l</link>. </para>
+ 
+</para>
+<programlisting>#include &lt;sqlite3.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &quot;main.h&quot;
+</programlisting><simplesect>
+    <title>Funções    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_import_2main_8c_1aa40b27ae32d6d1ae7160bd6256e08eb8">yylex</link> ()</para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a8f69e113e7cc75e3e649c6372f413160">insertMovieGenre</link> (<link linkend="_struct_movie">Movie</link> _movie, char *Genre)</para>
+
+<para>Função que insere um genero a um filme utiliza a query. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a5ef29f8119175a16aa343e3add92dd62">insertMovie</link> (<link linkend="_struct_movie">Movie</link> _movie)</para>
+
+<para>Função de inserção de um filme. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a3adc7aa88be7a4fdadc7e231a6e549bd">insertActorProfession</link> (<link linkend="_struct_actor">Actor</link> _actor, char *_profession)</para>
+
+<para>Inserção de uma profissão em um actor. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a9d6b1225a75d45bd86f3fafad5299b42">insertActorMovie</link> (<link linkend="_struct_actor">Actor</link> _actor, char *_movie)</para>
+
+<para>Insere um filme em que um actor tenha participado. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1abeae562758cc409adca9d32d967dd951">insertActor</link> (<link linkend="_struct_actor">Actor</link> _actor)</para>
+
+<para>Insere um actor na tabela actors. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec">DbQuery</link> (char *sql)</para>
+
+<para>Executa uma query na base de dados. </para>
+</listitem>
+            <listitem><para>void <link linkend="_import_2main_8c_1a028a79b8ba7f7bac70036e9ee3c1e1d5">DbInitialize</link> ()</para>
+
+<para>Inicializa a base de dados. </para>
+</listitem>
+            <listitem><para>void <link linkend="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292">insertsCommit</link> ()</para>
+
+<para>Faz commits a cada [sql_inserts_by_commit] iterações. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a57fdb20d13a9132ccad1393ab0310117">DbConnect</link> ()</para>
+
+<para>Conecta à base de dados [DATABASE]. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1aaf970157c29051e078655f59116e9e13">DbDisconnect</link> ()</para>
+
+<para>Disconecta da base de dados. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4">main</link> ()</para>
+
+<para>Main function. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variáveis    </title>
+        <itemizedlist>
+            <listitem><para>sqlite3 * <link linkend="_import_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link></para>
+</listitem>
+            <listitem><para>sqlite3_stmt * <link linkend="_import_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link></para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link></para>
+</listitem>
+            <listitem><para>const char <link linkend="_import_2main_8c_1aa868f8fbbbd8c00a7059a01e5bac74b4">insert_sql_actor</link> [] = &quot;INSERT INTO actors(actor_id,primaryName,birthYear,deathYear) VALUES (?, ?, ?, ?)&quot;</para>
+
+<para>Query de inserção de um actor tabela [actors]. </para>
+</listitem>
+            <listitem><para>const char <link linkend="_import_2main_8c_1ab01606b2adb8bbbe5e33b8af5420b580">insert_sql_actors_profession</link> [] = &quot;INSERT OR IGNORE INTO actors_profession(actor_id,profession) VALUES (?, ?)&quot;</para>
+
+<para>Query de inserção de uma profissão em um actor tabela [actors_profession] o IGNORE serve para no caso de já haver uma entrada na tabela para aquele actor não dar erro. </para>
+</listitem>
+            <listitem><para>const char <link linkend="_import_2main_8c_1ad95ed5b829ae58c2c7e5bcb1f1311c97">insert_sql_actors_movies</link> [] = &quot;INSERT OR IGNORE INTO actors_movies(actor_id,movie_id) VALUES (?, ?)&quot;</para>
+
+<para>Query de inserção de um filme em um actor tabela [actors_movies] o IGNORE serve para no caso de já haver uma entrada na tabela para aquele actor não dar erro. </para>
+</listitem>
+            <listitem><para>const char <link linkend="_import_2main_8c_1a5495ba20c111d6d69a9097591f50f553">insert_sql_movie</link> []</para>
+
+<para>Query de inserção de um filme tabela [movies]. </para>
+</listitem>
+            <listitem><para>const char <link linkend="_import_2main_8c_1aa07b787a509973479641429a30731bbb">insert_sql_movies_genres</link> [] = &quot;INSERT INTO movies_genres(movie_id,genre) VALUES (?, ?)&quot;</para>
+
+<para>Query de inserção de um genero de filme relativo a um filme tabla [movies_genres]. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1aff88a9560a13d895cd516ff0a8b24f75">nr_movies</link> =0</para>
+
+<para>Numero de filmes inseridos e numero de actores inseridos. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a80062e0b3f840e69288ba968ff00450d">nr_actors</link> =0</para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3">sql_inserts</link> = 0</para>
+
+<para>Variavel para controlar o numero de inserts entre COMITS. </para>
+</listitem>
+            <listitem><para>int <link linkend="_import_2main_8c_1a2712aeb1f7d99ae9913a61a6ed730523">sql_inserts_row</link> = 0</para>
+</listitem>
+            <listitem><para>const int <link linkend="_import_2main_8c_1ab41a45ffc9a06d2ec035b995cd16f1ce">sql_inserts_by_commit</link> = 200000</para>
+
+<para>Numero de inserts entre COMITS. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Descrição detalhada</title>
+
+<para>Ficheiro c aplicação Esta aplicação irá utilizar o ficheiro <link linkend="_main_8l">main.l</link>. </para>
+
+<para><formalpara><title>Autor</title>
+
+<para><itemizedlist>
+<listitem>
+<para>José Moura &lt;a13742|at|alunos.ipca.pt&gt;</para>
+</listitem><listitem>
+<para>Óscar Silva &lt;a14383|at|alunos.ipca.pt&gt;</para>
+</listitem><listitem>
+<para>Daniel Filipe &lt;a17442|at|alunos.ipca.pt&gt; </para>
+</listitem></itemizedlist>
+</para>
+</formalpara>
+<formalpara><title>Data</title>
+
+<para>17 Out 2019 </para>
+</formalpara>
+<formalpara><title>Veja também</title>
+
+<para><link linkend="_main_8l">main.l</link> </para>
+</formalpara>
+</para>
+</section>
+<section>
+<title>Documentação das funções</title>
+<anchor xml:id="_import_2main_8c_1a57fdb20d13a9132ccad1393ab0310117"/>    <section>
+    <title>DbConnect()</title>
+<indexterm><primary>DbConnect</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>DbConnect</secondary></indexterm>
+<para><computeroutput>int DbConnect ( )</computeroutput></para><para>
+
+<para>Conecta à base de dados [DATABASE]. </para>
+</para>
+
+<para>Conecta à base de dados.</para>
+
+<para><para><link linkend="_todo_1_todo000003">Tarefa</link> 
+<para>check rc bug </para>
+</para><formalpara><title>Veja também</title>
+
+<para><link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link> </para>
+</formalpara>
+<formalpara><title>Retorna</title>
+
+<para>success=1 / fail != 1 </para>
+</formalpara>
+</para>
+<programlisting>346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+347 
+348 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>;
+349 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_open_v2(<link linkend="_display_2main_8h_1a39dc88d73783e112dbfcf98adbdbefa6">DATABASE</link>,&#32;&amp;<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;SQLITE_OPEN_READWRITE&#32;|&#32;SQLITE_OPEN_CREATE,&#32;NULL&#32;);
+350 
+351 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;!=&#32;SQLITE_OK)&#32;{
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Cannot&#32;open&#32;database:&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+355 &#32;&#32;&#32;&#32;}
+356 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+357 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1aaf970157c29051e078655f59116e9e13"/>    <section>
+    <title>DbDisconnect()</title>
+<indexterm><primary>DbDisconnect</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>DbDisconnect</secondary></indexterm>
+<para><computeroutput>int DbDisconnect ( )</computeroutput></para><para>
+
+<para>Disconecta da base de dados. </para>
+</para>
+
+<para>Disconecta da Base de dados.</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_display_2main_8c_1a57fdb20d13a9132ccad1393ab0310117">DbConnect</link> </para>
+</formalpara>
+<formalpara><title>Retorna</title>
+
+<para>success=1 / fail != 1 </para>
+</formalpara>
+</para>
+<programlisting>365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+366 &#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+367 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+368 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1a028a79b8ba7f7bac70036e9ee3c1e1d5"/>    <section>
+    <title>DbInitialize()</title>
+<indexterm><primary>DbInitialize</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>DbInitialize</secondary></indexterm>
+<para><computeroutput>void DbInitialize ( )</computeroutput></para><para>
+
+<para>Inicializa a base de dados. </para>
+</para>
+<programlisting>263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+264 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;*sql&#32;=&#32;<emphasis role="stringliteral">&quot;PRAGMA&#32;main.page_size&#32;=&#32;4096;\n&quot;</emphasis>
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;PRAGMA&#32;main.cache_size=10000;\n&quot;</emphasis>
+266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;PRAGMA&#32;main.locking_mode=EXCLUSIVE;\n&quot;</emphasis>
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;PRAGMA&#32;main.synchronous=NORMAL;\n&quot;</emphasis>
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;PRAGMA&#32;main.journal_mode=WAL;\n&quot;</emphasis>
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;PRAGMA&#32;main.cache_size=5000;\n&quot;</emphasis>
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;BEGIN;\n&quot;</emphasis>
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;DROP&#32;TABLE&#32;IF&#32;EXISTS&#32;movies;\n&quot;</emphasis>
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;CREATE&#32;TABLE&#32;movies&#32;(\n&quot;</emphasis>
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;movie_id&#32;TEXT&#32;PRIMARY&#32;KEY,\n&quot;</emphasis>
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;titleType&#32;TEXT&#32;NOT&#32;NULL,\n&quot;</emphasis>
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;primaryTitle&#32;TEXT&#32;NOT&#32;NULL,\n&quot;</emphasis>
+276 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;originalTitle&#32;TEXT&#32;NOT&#32;NULL,\n&quot;</emphasis>
+277 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;isAdult&#32;INTEGER&#32;NOT&#32;NULL,\n&quot;</emphasis>
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;startYear&#32;INTEGER&#32;NOT&#32;NULL,\n&quot;</emphasis>
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;endYear&#32;INTEGER&#32;NOT&#32;NULL,\n&quot;</emphasis>
+280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;runtimeMinutes&#32;INTEGER&#32;NOT&#32;NULL\n&quot;</emphasis>
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;);\n&quot;</emphasis>
+282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;DROP&#32;TABLE&#32;IF&#32;EXISTS&#32;movies_genres;\n&quot;</emphasis>
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;CREATE&#32;TABLE&#32;movies_genres&#32;(\n&quot;</emphasis>
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;movie_id&#32;TEXT,\n&quot;</emphasis>
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;genre&#32;TEXT,\n&quot;</emphasis>
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;PRIMARY&#32;KEY&#32;(movie_id&#32;,&#32;genre)\n&quot;</emphasis>
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;);\n&quot;</emphasis>
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;DROP&#32;TABLE&#32;IF&#32;EXISTS&#32;actors;\n&quot;</emphasis>
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;CREATE&#32;TABLE&#32;actors&#32;(\n&quot;</emphasis>
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;actor_id&#32;TEXT&#32;PRIMARY&#32;KEY,\n&quot;</emphasis>
+293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;primaryName&#32;TEXT&#32;NOT&#32;NULL,\n&quot;</emphasis>
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;birthYear&#32;INTEGER&#32;NOT&#32;NULL,\n&quot;</emphasis>
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;deathYear&#32;INTEGER&#32;NULL\n&quot;</emphasis>
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;);\n&quot;</emphasis>
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;CREATE&#32;INDEX&#32;idx_name&#32;ON&#32;actors&#32;(primaryName);\n&quot;</emphasis>
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;DROP&#32;TABLE&#32;IF&#32;EXISTS&#32;actors_profession;\n&quot;</emphasis>
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;CREATE&#32;TABLE&#32;actors_profession&#32;(\n&quot;</emphasis>
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;actor_id&#32;TEXT,\n&quot;</emphasis>
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;profession&#32;TEXT,\n&quot;</emphasis>
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;PRIMARY&#32;KEY&#32;(actor_id&#32;,&#32;profession)\n&quot;</emphasis>
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;);\n&quot;</emphasis>
+305 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;DROP&#32;TABLE&#32;IF&#32;EXISTS&#32;actors_movies;\n&quot;</emphasis>
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;CREATE&#32;TABLE&#32;actors_movies&#32;(\n&quot;</emphasis>
+308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;actor_id&#32;TEXT,\n&quot;</emphasis>
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;movie_id&#32;TEXT,\n&quot;</emphasis>
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;PRIMARY&#32;KEY&#32;(actor_id&#32;,&#32;movie_id&#32;)\n&quot;</emphasis>
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;);\n&quot;</emphasis>
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;COMMIT;&quot;</emphasis>;
+313 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec">DbQuery</link>(sql);
+314 
+315 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec"/>    <section>
+    <title>DbQuery()</title>
+<indexterm><primary>DbQuery</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>DbQuery</secondary></indexterm>
+<para><computeroutput>int DbQuery (char * sql)</computeroutput></para><para>
+
+<para>Executa uma query na base de dados. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sql</entry>
+                                <entry>
+<para>srting da query </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1a028a79b8ba7f7bac70036e9ee3c1e1d5">DbInitialize</link> </para>
+</formalpara>
+<formalpara><title>Retorna</title>
+
+<para></para>
+</formalpara>
+</para>
+<programlisting>246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+247 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;*err_msg&#32;=&#32;0;
+248 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_exec(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;sql,&#32;NULL,&#32;NULL,&#32;&amp;err_msg);
+249 
+250 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;!=&#32;SQLITE_OK)&#32;{
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;SQL&#32;error:&#32;%s\n&quot;</emphasis>,&#32;err_msg);
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_free(err_msg);
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(1);
+255 &#32;&#32;&#32;&#32;}
+256 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+257 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1abeae562758cc409adca9d32d967dd951"/>    <section>
+    <title>insertActor()</title>
+<indexterm><primary>insertActor</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insertActor</secondary></indexterm>
+<para><computeroutput>int insertActor (<link linkend="_struct_actor">Actor</link> _actor)</computeroutput></para><para>
+
+<para>Insere um actor na tabela actors. </para>
+</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1aa868f8fbbbd8c00a7059a01e5bac74b4">insert_sql_actor</link> </para>
+
+<para><link linkend="_struct_actor">Actor</link> </para>
+</formalpara>
+
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>_actor</entry>
+                                <entry>
+<para>Estrutura com um actor do tipo &lt;Actor&gt; </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Retorna</title>
+
+<para>1 se Inserido </para>
+</formalpara>
+</para>
+<programlisting>215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+216 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a80062e0b3f840e69288ba968ff00450d">nr_actors</link>++;
+217 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292">insertsCommit</link>();
+218 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Insere&#32;na&#32;tabela&#32;actors</emphasis>
+219 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*res;
+220 
+221 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_import_2main_8c_1aa868f8fbbbd8c00a7059a01e5bac74b4">insert_sql_actor</link>,&#32;-1,&#32;&amp;res,&#32;0);
+222 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;==&#32;SQLITE_OK)&#32;{
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;1,&#32;_actor.<link linkend="_struct_actor_1a13fe43afa78ab142c9f1c3d106957c19">actor_id</link>,strlen(_actor.<link linkend="_struct_actor_1a13fe43afa78ab142c9f1c3d106957c19">actor_id</link>),&#32;NULL);
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;2,&#32;_actor.<link linkend="_struct_actor_1aed2db65d3c69a22b908b571c00540aaf">primaryName</link>,strlen(_actor.<link linkend="_struct_actor_1aed2db65d3c69a22b908b571c00540aaf">primaryName</link>),&#32;NULL);
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_int(res,&#32;3,&#32;_actor.<link linkend="_struct_actor_1a30e156f57e9505356489c0829d50bcd7">birthYear</link>);
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_int(res,&#32;4,&#32;_actor.<link linkend="_struct_actor_1a751fb66bb436f80d2128cf61125b1c2f">deathYear</link>);
+227 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;execute&#32;statement:&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+229 &#32;&#32;&#32;&#32;}
+230 
+231 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_step(res);
+232 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(SQLITE_DONE&#32;!=&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>)&#32;{
+233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;insert&#32;statement&#32;didn&apos;t&#32;return&#32;DONE&#32;(%i):&#32;%s\n&quot;</emphasis>,&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+234 &#32;&#32;&#32;&#32;}
+235 &#32;&#32;&#32;&#32;sqlite3_finalize(res);
+236 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+237 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1a9d6b1225a75d45bd86f3fafad5299b42"/>    <section>
+    <title>insertActorMovie()</title>
+<indexterm><primary>insertActorMovie</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insertActorMovie</secondary></indexterm>
+<para><computeroutput>int insertActorMovie (<link linkend="_struct_actor">Actor</link> _actor, char * _movie)</computeroutput></para><para>
+
+<para>Insere um filme em que um actor tenha participado. </para>
+</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1ad95ed5b829ae58c2c7e5bcb1f1311c97">insert_sql_actors_movies</link> </para>
+
+<para><link linkend="_struct_actor">Actor</link> </para>
+</formalpara>
+
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>_actor</entry>
+                                <entry>
+<para>Estrutura com um actor do tipo &lt;Actor&gt; </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>_movie</entry>
+                                <entry>
+<para>String com o id do filme </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Retorna</title>
+
+<para>1 Se inserido </para>
+</formalpara>
+</para>
+<programlisting>183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+184 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(strlen(_movie)&#32;==&#32;0)
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+186 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292">insertsCommit</link>();
+187 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*res;
+188 
+189 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_import_2main_8c_1ad95ed5b829ae58c2c7e5bcb1f1311c97">insert_sql_actors_movies</link>,&#32;-1,&#32;&amp;res,&#32;0);
+190 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;==&#32;SQLITE_OK)&#32;{
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;1,&#32;_actor.<link linkend="_struct_actor_1a13fe43afa78ab142c9f1c3d106957c19">actor_id</link>,strlen(_actor.<link linkend="_struct_actor_1a13fe43afa78ab142c9f1c3d106957c19">actor_id</link>),&#32;NULL);
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;2,&#32;_movie,strlen(_movie),&#32;NULL);
+193 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;execute&#32;statement:&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+195 &#32;&#32;&#32;&#32;}
+196 
+197 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_step(res);
+198 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(SQLITE_DONE&#32;!=&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>)&#32;{
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;insert&#32;statement&#32;didn&apos;t&#32;return&#32;DONE&#32;(%i):&#32;%s\n&quot;</emphasis>,&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+200 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//printf(&quot;INSERT&#32;completed\n\n&quot;);</emphasis>
+202 &#32;&#32;&#32;&#32;}
+203 &#32;&#32;&#32;&#32;sqlite3_finalize(res);
+204 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+205 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1a3adc7aa88be7a4fdadc7e231a6e549bd"/>    <section>
+    <title>insertActorProfession()</title>
+<indexterm><primary>insertActorProfession</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insertActorProfession</secondary></indexterm>
+<para><computeroutput>int insertActorProfession (<link linkend="_struct_actor">Actor</link> _actor, char * _profession)</computeroutput></para><para>
+
+<para>Inserção de uma profissão em um actor. </para>
+</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1ab01606b2adb8bbbe5e33b8af5420b580">insert_sql_actors_profession</link> </para>
+</formalpara>
+
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>_actor</entry>
+                                <entry>
+<para>Estrutura com um actor do tipo &lt;Actor&gt; </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>_profession</entry>
+                                <entry>
+<para>String da Profissão </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Retorna</title>
+
+<para>Inteiro 1 se inseriu </para>
+</formalpara>
+</para>
+<programlisting>150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+151 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(strlen(_profession&#32;&#32;)&#32;==&#32;0)
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+153 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292">insertsCommit</link>();
+154 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*res;
+155 
+156 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_import_2main_8c_1ab01606b2adb8bbbe5e33b8af5420b580">insert_sql_actors_profession</link>,&#32;-1,&#32;&amp;res,&#32;0);
+157 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;==&#32;SQLITE_OK)&#32;{
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;1,&#32;_actor.<link linkend="_struct_actor_1a13fe43afa78ab142c9f1c3d106957c19">actor_id</link>,strlen(_actor.<link linkend="_struct_actor_1a13fe43afa78ab142c9f1c3d106957c19">actor_id</link>),&#32;NULL);
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;2,&#32;_profession,strlen(_profession),&#32;NULL);
+160 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;execute&#32;statement:&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+162 &#32;&#32;&#32;&#32;}
+163 
+164 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_step(res);
+165 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(SQLITE_DONE&#32;!=&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>)&#32;{
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;insert&#32;statement&#32;didn&apos;t&#32;return&#32;DONE&#32;(%i):&#32;%s\n&quot;</emphasis>,&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+167 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//printf(&quot;INSERT&#32;completed\n\n&quot;);</emphasis>
+169 &#32;&#32;&#32;&#32;}
+170 &#32;&#32;&#32;&#32;sqlite3_finalize(res);
+171 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+172 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1a5ef29f8119175a16aa343e3add92dd62"/>    <section>
+    <title>insertMovie()</title>
+<indexterm><primary>insertMovie</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insertMovie</secondary></indexterm>
+<para><computeroutput>int insertMovie (<link linkend="_struct_movie">Movie</link> _movie)</computeroutput></para><para>
+
+<para>Função de inserção de um filme. </para>
+</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1a5495ba20c111d6d69a9097591f50f553">insert_sql_movie</link> </para>
+</formalpara>
+
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>_movie</entry>
+                                <entry>
+<para>Estrutura de um filme do tipo <link linkend="_struct_movie">Movie</link> </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Retorna</title>
+
+<para>Inteiro 1 se Inseriu </para>
+</formalpara>
+</para>
+<programlisting>112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+113 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1aff88a9560a13d895cd516ff0a8b24f75">nr_movies</link>++;
+114 
+115 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292">insertsCommit</link>();
+116 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Insere&#32;na&#32;tabela&#32;actors</emphasis>
+117 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*res;
+118 &#32;&#32;&#32;&#32;<emphasis role="comment">//movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes</emphasis>
+119 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_import_2main_8c_1a5495ba20c111d6d69a9097591f50f553">insert_sql_movie</link>,&#32;-1,&#32;&amp;res,&#32;0);
+120 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;==&#32;SQLITE_OK)&#32;{
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;1,&#32;_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>,strlen(_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>),&#32;NULL);
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;2,&#32;_movie.<link linkend="_struct_movie_1ab24997e15cb36af8a45d3bf3e3fd82e1">titleType</link>,strlen(_movie.<link linkend="_struct_movie_1ab24997e15cb36af8a45d3bf3e3fd82e1">titleType</link>),&#32;NULL);
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;3,&#32;_movie.<link linkend="_struct_movie_1aa2bc2d5a07cdabb311e429dc81e61f89">primaryTitle</link>,strlen(_movie.<link linkend="_struct_movie_1aa2bc2d5a07cdabb311e429dc81e61f89">primaryTitle</link>),&#32;NULL);
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;4,&#32;_movie.<link linkend="_struct_movie_1af56113a47530a73a2b42733ecb3404d5">originalTitle</link>,strlen(_movie.<link linkend="_struct_movie_1af56113a47530a73a2b42733ecb3404d5">originalTitle</link>),&#32;NULL);
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_int(res,&#32;5,&#32;_movie.<link linkend="_struct_movie_1a26bfe703a5cda590d946329083093742">isAdult</link>);
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_int(res,&#32;6,&#32;_movie.<link linkend="_struct_movie_1a71d3909ed695bd033e056181140d4a51">startYear</link>);
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_int(res,&#32;7,&#32;_movie.<link linkend="_struct_movie_1a59c9cee9387cb686b1a2d1ae7484f4be">endYear</link>);
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_int(res,&#32;8,&#32;_movie.<link linkend="_struct_movie_1a12ecf5cfcb55c919f64578b667ee585c">runtimeMinutes</link>);
+129 
+130 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;execute&#32;statement:&#32;%s&#32;-&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>),_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>);
+132 &#32;&#32;&#32;&#32;}
+133 
+134 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_step(res);
+135 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(SQLITE_DONE&#32;!=&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>)&#32;{
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;insert&#32;statement&#32;didn&apos;t&#32;return&#32;DONE&#32;(%i):&#32;%s&#32;-%s\n&quot;</emphasis>,&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>),_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>);
+137 &#32;&#32;&#32;&#32;}
+138 &#32;&#32;&#32;&#32;sqlite3_finalize(res);
+139 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+140 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1a8f69e113e7cc75e3e649c6372f413160"/>    <section>
+    <title>insertMovieGenre()</title>
+<indexterm><primary>insertMovieGenre</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insertMovieGenre</secondary></indexterm>
+<para><computeroutput>int insertMovieGenre (<link linkend="_struct_movie">Movie</link> _movie, char * Genre)</computeroutput></para><para>
+
+<para>Função que insere um genero a um filme utiliza a query. </para>
+</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1aa07b787a509973479641429a30731bbb">insert_sql_movies_genres</link> </para>
+</formalpara>
+
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>_movie</entry>
+                                <entry>
+<para>Estrutura com um filme </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>Genre</entry>
+                                <entry>
+<para>String de um genero </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Retorna</title>
+
+<para>1 se ok </para>
+</formalpara>
+</para>
+<programlisting>79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+80 
+81 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(strlen(Genre)&#32;==&#32;0)
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+83 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292">insertsCommit</link>();
+84 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*res;
+85 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_import_2main_8c_1aa07b787a509973479641429a30731bbb">insert_sql_movies_genres</link>,&#32;-1,&#32;&amp;res,&#32;0);
+86 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;==&#32;SQLITE_OK)&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;1,&#32;_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>,strlen(_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>),&#32;NULL);
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_bind_text(res,&#32;2,&#32;Genre,strlen(Genre),&#32;NULL);
+89 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;execute&#32;statement:&#32;%s&#32;-&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>),_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>);
+91 &#32;&#32;&#32;&#32;}
+92 
+93 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_step(res);
+94 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(SQLITE_DONE&#32;!=&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>)&#32;{
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;insert&#32;statement&#32;didn&apos;t&#32;return&#32;DONE&#32;(%i):&#32;%s&#32;-%s\n&quot;</emphasis>,&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>),_movie.<link linkend="_struct_movie_1a51d31331e337159cefd99a0809c78e3a">movie_id</link>);
+96 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//printf(&quot;INSERT&#32;completed\n\n&quot;);</emphasis>
+98 &#32;&#32;&#32;&#32;}
+99 &#32;&#32;&#32;&#32;sqlite3_finalize(res);
+100 
+101 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+102 
+103 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1a2cc91acfe97f96c5ea1f426ae24c9292"/>    <section>
+    <title>insertsCommit()</title>
+<indexterm><primary>insertsCommit</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insertsCommit</secondary></indexterm>
+<para><computeroutput>void insertsCommit ( )</computeroutput></para><para>
+
+<para>Faz commits a cada [sql_inserts_by_commit] iterações. </para>
+</para>
+
+<para><formalpara><title>Veja também</title>
+
+<para><link linkend="_import_2main_8c_1ab41a45ffc9a06d2ec035b995cd16f1ce">sql_inserts_by_commit</link> </para>
+
+<para><link linkend="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3">sql_inserts</link> </para>
+</formalpara>
+</para>
+<programlisting>323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+324 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3">sql_inserts</link>++;
+325 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3">sql_inserts</link>==1)
+326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;Inserts\tMovies\tActors\n&quot;</emphasis>);
+327 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;((<link linkend="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3">sql_inserts</link>&#32;%&#32;<link linkend="_import_2main_8c_1ab41a45ffc9a06d2ec035b995cd16f1ce">sql_inserts_by_commit</link>)&#32;==&#32;0&#32;&#32;)&#32;{
+328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Commit</emphasis>
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;%d\t%d\t%d\n&quot;</emphasis>,<link linkend="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3">sql_inserts</link>,<link linkend="_import_2main_8c_1aff88a9560a13d895cd516ff0a8b24f75">nr_movies</link>,<link linkend="_import_2main_8c_1a80062e0b3f840e69288ba968ff00450d">nr_actors</link>);
+330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2712aeb1f7d99ae9913a61a6ed730523">sql_inserts_row</link>=0;
+331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec">DbQuery</link>(<emphasis role="stringliteral">&quot;COMMIT&quot;</emphasis>);
+332 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec">DbQuery</link>(<emphasis role="stringliteral">&quot;BEGIN&#32;TRANSACTION&quot;</emphasis>);
+333 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+334 
+335 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a2712aeb1f7d99ae9913a61a6ed730523">sql_inserts_row</link>++;
+336 &#32;&#32;&#32;&#32;}
+337 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4"/>    <section>
+    <title>main()</title>
+<indexterm><primary>main</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>main</secondary></indexterm>
+<para><computeroutput>int main ( )</computeroutput></para><para>
+
+<para>Main function. </para>
+</para>
+
+<para><formalpara><title>Retorna</title>
+
+<para>1 se erro </para>
+</formalpara>
+</para>
+<programlisting>376 {
+377 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_display_2main_8c_1a57fdb20d13a9132ccad1393ab0310117">DbConnect</link>())&#32;{
+378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;Error&#32;connecting&#32;database\n&quot;</emphasis>);
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+380 &#32;&#32;&#32;&#32;};
+381 
+382 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1a028a79b8ba7f7bac70036e9ee3c1e1d5">DbInitialize</link>();
+383 
+384 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec">DbQuery</link>(<emphasis role="stringliteral">&quot;BEGIN&#32;TRANSACTION&quot;</emphasis>);
+385 
+386 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(<link linkend="_import_2main_8c_1aa40b27ae32d6d1ae7160bd6256e08eb8">yylex</link>());
+387 
+388 &#32;&#32;&#32;&#32;<link linkend="_import_2main_8c_1ae249aa44396558ba330fcc187770eaec">DbQuery</link>(<emphasis role="stringliteral">&quot;COMMIT&quot;</emphasis>);
+389 
+390 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1aaf970157c29051e078655f59116e9e13">DbDisconnect</link>();
+391 
+392 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+393 }
+</programlisting>    </section><anchor xml:id="_import_2main_8c_1aa40b27ae32d6d1ae7160bd6256e08eb8"/>    <section>
+    <title>yylex()</title>
+<indexterm><primary>yylex</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>yylex</secondary></indexterm>
+<para><computeroutput>int yylex ( )</computeroutput></para></section>
+</section>
+<section>
+<title>Documentação das variáveis</title>
+<anchor xml:id="_import_2main_8c_1ad6e663497d2c934364b3bcf07496b30b"/>    <section>
+    <title>db</title>
+<indexterm><primary>db</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>db</secondary></indexterm>
+<para><computeroutput>sqlite3* db</computeroutput></para>    </section><anchor xml:id="_import_2main_8c_1aa868f8fbbbd8c00a7059a01e5bac74b4"/>    <section>
+    <title>insert_sql_actor</title>
+<indexterm><primary>insert_sql_actor</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insert_sql_actor</secondary></indexterm>
+<para><computeroutput>const char insert_sql_actor[] = &quot;INSERT INTO actors(actor_id,primaryName,birthYear,deathYear) VALUES (?, ?, ?, ?)&quot;</computeroutput></para><para>
+
+<para>Query de inserção de um actor tabela [actors]. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1ad95ed5b829ae58c2c7e5bcb1f1311c97"/>    <section>
+    <title>insert_sql_actors_movies</title>
+<indexterm><primary>insert_sql_actors_movies</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insert_sql_actors_movies</secondary></indexterm>
+<para><computeroutput>const char insert_sql_actors_movies[] = &quot;INSERT OR IGNORE INTO actors_movies(actor_id,movie_id) VALUES (?, ?)&quot;</computeroutput></para><para>
+
+<para>Query de inserção de um filme em um actor tabela [actors_movies] o IGNORE serve para no caso de já haver uma entrada na tabela para aquele actor não dar erro. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1ab01606b2adb8bbbe5e33b8af5420b580"/>    <section>
+    <title>insert_sql_actors_profession</title>
+<indexterm><primary>insert_sql_actors_profession</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insert_sql_actors_profession</secondary></indexterm>
+<para><computeroutput>const char insert_sql_actors_profession[] = &quot;INSERT OR IGNORE INTO actors_profession(actor_id,profession) VALUES (?, ?)&quot;</computeroutput></para><para>
+
+<para>Query de inserção de uma profissão em um actor tabela [actors_profession] o IGNORE serve para no caso de já haver uma entrada na tabela para aquele actor não dar erro. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1a5495ba20c111d6d69a9097591f50f553"/>    <section>
+    <title>insert_sql_movie</title>
+<indexterm><primary>insert_sql_movie</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insert_sql_movie</secondary></indexterm>
+<para><computeroutput>const char insert_sql_movie[]</computeroutput></para><emphasis role="strong">Valor inicial:</emphasis><programlisting>=&#32;<emphasis role="stringliteral">&quot;INSERT&#32;INTO&#32;movies(movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes)&quot;</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VALUES&#32;(?,&#32;?,&#32;?,&#32;?,&#32;?&#32;,?&#32;,?&#32;,?)&quot;</emphasis>
+</programlisting><para>
+
+<para>Query de inserção de um filme tabela [movies]. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1aa07b787a509973479641429a30731bbb"/>    <section>
+    <title>insert_sql_movies_genres</title>
+<indexterm><primary>insert_sql_movies_genres</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>insert_sql_movies_genres</secondary></indexterm>
+<para><computeroutput>const char insert_sql_movies_genres[] = &quot;INSERT INTO movies_genres(movie_id,genre) VALUES (?, ?)&quot;</computeroutput></para><para>
+
+<para>Query de inserção de um genero de filme relativo a um filme tabla [movies_genres]. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1a80062e0b3f840e69288ba968ff00450d"/>    <section>
+    <title>nr_actors</title>
+<indexterm><primary>nr_actors</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>nr_actors</secondary></indexterm>
+<para><computeroutput>int nr_actors =0</computeroutput></para>    </section><anchor xml:id="_import_2main_8c_1aff88a9560a13d895cd516ff0a8b24f75"/>    <section>
+    <title>nr_movies</title>
+<indexterm><primary>nr_movies</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>nr_movies</secondary></indexterm>
+<para><computeroutput>int nr_movies =0</computeroutput></para><para>
+
+<para>Numero de filmes inseridos e numero de actores inseridos. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288"/>    <section>
+    <title>rc</title>
+<indexterm><primary>rc</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>rc</secondary></indexterm>
+<para><computeroutput>int rc</computeroutput></para>    </section><anchor xml:id="_import_2main_8c_1a26ddb528d571985ce11a8c8e157a2cf3"/>    <section>
+    <title>sql_inserts</title>
+<indexterm><primary>sql_inserts</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>sql_inserts</secondary></indexterm>
+<para><computeroutput>int sql_inserts = 0</computeroutput></para><para>
+
+<para>Variavel para controlar o numero de inserts entre COMITS. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1ab41a45ffc9a06d2ec035b995cd16f1ce"/>    <section>
+    <title>sql_inserts_by_commit</title>
+<indexterm><primary>sql_inserts_by_commit</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>sql_inserts_by_commit</secondary></indexterm>
+<para><computeroutput>const int sql_inserts_by_commit = 200000</computeroutput></para><para>
+
+<para>Numero de inserts entre COMITS. </para>
+</para>
+    </section><anchor xml:id="_import_2main_8c_1a2712aeb1f7d99ae9913a61a6ed730523"/>    <section>
+    <title>sql_inserts_row</title>
+<indexterm><primary>sql_inserts_row</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>sql_inserts_row</secondary></indexterm>
+<para><computeroutput>int sql_inserts_row = 0</computeroutput></para>    </section><anchor xml:id="_import_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195"/>    <section>
+    <title>stmt</title>
+<indexterm><primary>stmt</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>stmt</secondary></indexterm>
+<para><computeroutput>sqlite3_stmt* stmt</computeroutput></para></section>
+</section>
+</section>

@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_display_2main_8c">
+<title>Referência ao ficheiro src/display/main.c</title>
+<indexterm><primary>src/display/main.c</primary></indexterm>
+<para>
+
+<para>Esta aplicação mostra o conteudo da base de dados [DATABASE] Essa informação é proveniente de 2 queries. </para>
+ 
+</para>
+<programlisting>#include &lt;sqlite3.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &quot;main.h&quot;
+</programlisting><simplesect>
+    <title>Funções    </title>
+        <itemizedlist>
+            <listitem><para>void <link linkend="_display_2main_8c_1a74edc0b60b9b60845302cf05ef7184f9">showActorMovies</link> (char *actor_id)</para>
+
+<para>Mostra os filmes do actor passado no parametro e itera os filmes. </para>
+</listitem>
+            <listitem><para>int <link linkend="_display_2main_8c_1a57fdb20d13a9132ccad1393ab0310117">DbConnect</link> ()</para>
+
+<para>Conecta à base de dados. </para>
+</listitem>
+            <listitem><para>int <link linkend="_display_2main_8c_1aaf970157c29051e078655f59116e9e13">DbDisconnect</link> ()</para>
+
+<para>Disconecta da Base de dados. </para>
+</listitem>
+            <listitem><para>void <link linkend="_display_2main_8c_1a131639e3f6bec891fbc2f9e3078866fd">showActorsAndMovies</link> ()</para>
+
+<para>Mostra os actores e itera cada actor. </para>
+</listitem>
+            <listitem><para>int <link linkend="_display_2main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4">main</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variáveis    </title>
+        <itemizedlist>
+            <listitem><para>sqlite3 * <link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link></para>
+</listitem>
+            <listitem><para>sqlite3_stmt * <link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link></para>
+</listitem>
+            <listitem><para>int <link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link></para>
+</listitem>
+            <listitem><para>const char <link linkend="_display_2main_8c_1a134c865d3cc06b3840dc19af75a81a98">select_actor</link> [] = &quot;SELECT actor_id,primaryName FROM actors ORDER BY primaryName ASC&quot;</para>
+
+<para>Query que extrai os actores ordenados por nome. </para>
+</listitem>
+            <listitem><para>const char <link linkend="_display_2main_8c_1a1e32b092ca07a364be69050b7850fddf">select_movies_actor</link> []</para>
+
+<para>Query que extrai os filmes de um determinado actor. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Descrição detalhada</title>
+
+<para>Esta aplicação mostra o conteudo da base de dados [DATABASE] Essa informação é proveniente de 2 queries. </para>
+
+<para><formalpara><title>Autor</title>
+
+<para><itemizedlist>
+<listitem>
+<para>José Moura &lt;a13742|at|alunos.ipca.pt&gt;</para>
+</listitem><listitem>
+<para>Óscar Silva &lt;a14383|at|alunos.ipca.pt&gt;</para>
+</listitem><listitem>
+<para>Daniel Filipe &lt;a17442|at|alunos.ipca.pt&gt; </para>
+</listitem></itemizedlist>
+</para>
+</formalpara>
+<formalpara><title>Data</title>
+
+<para>30 Out 2019 </para>
+</formalpara>
+</para>
+</section>
+<section>
+<title>Documentação das funções</title>
+<anchor xml:id="_display_2main_8c_1a57fdb20d13a9132ccad1393ab0310117"/>    <section>
+    <title>DbConnect()</title>
+<indexterm><primary>DbConnect</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>DbConnect</secondary></indexterm>
+<para><computeroutput>int DbConnect ( )</computeroutput></para><para>
+
+<para>Conecta à base de dados. </para>
+</para>
+
+<para><formalpara><title>Retorna</title>
+
+<para>1|0 </para>
+</formalpara>
+</para>
+<programlisting>48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+49 
+50 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>;
+51 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;=&#32;sqlite3_open_v2(<link linkend="_display_2main_8h_1a39dc88d73783e112dbfcf98adbdbefa6">DATABASE</link>,&#32;&amp;<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;SQLITE_OPEN_READWRITE&#32;|&#32;SQLITE_OPEN_CREATE,&#32;NULL&#32;);
+52 
+53 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288">rc</link>&#32;!=&#32;SQLITE_OK)&#32;{
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Cannot&#32;open&#32;database:&#32;%s\n&quot;</emphasis>,&#32;sqlite3_errmsg(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>));
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+57 &#32;&#32;&#32;&#32;}
+58 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+59 }
+</programlisting>    </section><anchor xml:id="_display_2main_8c_1aaf970157c29051e078655f59116e9e13"/>    <section>
+    <title>DbDisconnect()</title>
+<indexterm><primary>DbDisconnect</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>DbDisconnect</secondary></indexterm>
+<para><computeroutput>int DbDisconnect ( )</computeroutput></para><para>
+
+<para>Disconecta da Base de dados. </para>
+</para>
+
+<para><formalpara><title>Retorna</title>
+
+<para>1|0 </para>
+</formalpara>
+</para>
+<programlisting>66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+67 &#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+68 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+69 }
+</programlisting>    </section><anchor xml:id="_display_2main_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4"/>    <section>
+    <title>main()</title>
+<indexterm><primary>main</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>main</secondary></indexterm>
+<para><computeroutput>int main ( )</computeroutput></para><programlisting>72 {
+73 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_display_2main_8c_1a57fdb20d13a9132ccad1393ab0310117">DbConnect</link>())&#32;{
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;Error&#32;connecting&#32;database\n&quot;</emphasis>);
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+76 &#32;&#32;&#32;&#32;};
+77 
+78 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1a131639e3f6bec891fbc2f9e3078866fd">showActorsAndMovies</link>();
+79 
+80 &#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1aaf970157c29051e078655f59116e9e13">DbDisconnect</link>();
+81 
+82 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+83 }
+</programlisting>    </section><anchor xml:id="_display_2main_8c_1a74edc0b60b9b60845302cf05ef7184f9"/>    <section>
+    <title>showActorMovies()</title>
+<indexterm><primary>showActorMovies</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>showActorMovies</secondary></indexterm>
+<para><computeroutput>void showActorMovies (char * actor_id)</computeroutput></para><para>
+
+<para>Mostra os filmes do actor passado no parametro e itera os filmes. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parâmetros                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>actor_id</entry>
+                                <entry>
+<para>id do actor </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+<programlisting>112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+113 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>;
+114 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_display_2main_8c_1a1e32b092ca07a364be69050b7850fddf">select_movies_actor</link>,&#32;-1,&#32;&amp;<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>,&#32;NULL))&#32;{
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;Error&#32;executing&#32;sql&#32;statement\n&quot;</emphasis>);
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(-1);
+118 &#32;&#32;&#32;&#32;}
+119 &#32;&#32;&#32;&#32;sqlite3_bind_text(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>,&#32;1,&#32;actor_id,strlen(actor_id),&#32;NULL);
+120 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(sqlite3_step(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>)&#32;!=&#32;SQLITE_DONE)&#32;{
+121 
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;\t&#32;-&#32;%s&quot;</emphasis>,&#32;sqlite3_column_text(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>,&#32;1));
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;\n&quot;</emphasis>);
+124 &#32;&#32;&#32;&#32;}
+125 
+126 &#32;&#32;&#32;&#32;sqlite3_finalize(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>);
+127 }
+</programlisting>    </section><anchor xml:id="_display_2main_8c_1a131639e3f6bec891fbc2f9e3078866fd"/>    <section>
+    <title>showActorsAndMovies()</title>
+<indexterm><primary>showActorsAndMovies</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>showActorsAndMovies</secondary></indexterm>
+<para><computeroutput>void showActorsAndMovies ( )</computeroutput></para><para>
+
+<para>Mostra os actores e itera cada actor. </para>
+</para>
+<programlisting>89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+90 &#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;Showing&#32;info&#32;from&#32;database\n\n&quot;</emphasis>);
+91 &#32;&#32;&#32;&#32;sqlite3_stmt&#32;*<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>;
+92 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(sqlite3_prepare_v2(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>,&#32;<link linkend="_display_2main_8c_1a134c865d3cc06b3840dc19af75a81a98">select_actor</link>,&#32;-1,&#32;&amp;<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>,&#32;NULL))&#32;{
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;Error&#32;executing&#32;sql&#32;statement\n&quot;</emphasis>);
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqlite3_close(<link linkend="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b">db</link>);
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(-1);
+96 &#32;&#32;&#32;&#32;}
+97 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(sqlite3_step(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>)&#32;!=&#32;SQLITE_DONE)&#32;{
+98 
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;*&#32;%s&quot;</emphasis>,&#32;sqlite3_column_text(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>,&#32;1));
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;\n&quot;</emphasis>);
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Coluna&#32;0&#32;é&#32;o&#32;id&#32;do&#32;actor</emphasis>
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_display_2main_8c_1a74edc0b60b9b60845302cf05ef7184f9">showActorMovies</link>(sqlite3_column_text(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>,&#32;0));
+103 &#32;&#32;&#32;&#32;}
+104 &#32;&#32;&#32;&#32;sqlite3_finalize(<link linkend="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195">stmt</link>);
+105 }
+</programlisting></section>
+</section>
+<section>
+<title>Documentação das variáveis</title>
+<anchor xml:id="_display_2main_8c_1ad6e663497d2c934364b3bcf07496b30b"/>    <section>
+    <title>db</title>
+<indexterm><primary>db</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>db</secondary></indexterm>
+<para><computeroutput>sqlite3* db</computeroutput></para>    </section><anchor xml:id="_display_2main_8c_1ac6509c6fe4cbf7bde170597172f8a288"/>    <section>
+    <title>rc</title>
+<indexterm><primary>rc</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>rc</secondary></indexterm>
+<para><computeroutput>int rc</computeroutput></para>    </section><anchor xml:id="_display_2main_8c_1a134c865d3cc06b3840dc19af75a81a98"/>    <section>
+    <title>select_actor</title>
+<indexterm><primary>select_actor</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>select_actor</secondary></indexterm>
+<para><computeroutput>const char select_actor[] = &quot;SELECT actor_id,primaryName FROM actors ORDER BY primaryName ASC&quot;</computeroutput></para><para>
+
+<para>Query que extrai os actores ordenados por nome. </para>
+</para>
+    </section><anchor xml:id="_display_2main_8c_1a1e32b092ca07a364be69050b7850fddf"/>    <section>
+    <title>select_movies_actor</title>
+<indexterm><primary>select_movies_actor</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>select_movies_actor</secondary></indexterm>
+<para><computeroutput>const char select_movies_actor[]</computeroutput></para><emphasis role="strong">Valor inicial:</emphasis><programlisting>=&#32;<emphasis role="stringliteral">&quot;SELECT&#32;movies.movie_id,originalTitle&#32;FROM&#32;&quot;</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;actors_movies,&#32;movies&#32;&quot;</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;WHERE&#32;actor_id&#32;=&#32;?&#32;&quot;</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;and&#32;movies.movie_id=actors_movies.movie_id&#32;&#32;&quot;</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;ORDER&#32;BY&#32;primaryTitle&#32;ASC;&quot;</emphasis>
+</programlisting><para>
+
+<para>Query que extrai os filmes de um determinado actor. </para>
+</para>
+    </section><anchor xml:id="_display_2main_8c_1a38b7f9e3afdf0f12a85d9abb3cd1e195"/>    <section>
+    <title>stmt</title>
+<indexterm><primary>stmt</primary><secondary>main.c</secondary></indexterm>
+<indexterm><primary>main.c</primary><secondary>stmt</secondary></indexterm>
+<para><computeroutput>sqlite3_stmt* stmt</computeroutput></para></section>
+</section>
+</section>

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.16"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Processamento de Linguagens: Código-Fonte de src/display/main.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ipca_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Processamento de Linguagens
+   </div>
+   <div id="projectbrief">Trabalho Prático 1</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.16 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_25685f9c6d837c57f295dee081495707.html">display</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">main.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="display_2main_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Created by Daniel on 17/10/2019.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef PL_MAIN_H</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define PL_MAIN_H</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="display_2main_8h.html#a39dc88d73783e112dbfcf98adbdbefa6">    8</a></span>&#160;<span class="preprocessor">#define DATABASE &quot;database.db&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="display_2main_8h.html#a528b4a36c14b40b6b7a96b1df6362045">   10</a></span>&#160;<span class="preprocessor">#define YYLMAX 1048576</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="struct_movie.html">   12</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="struct_movie.html#a51d31331e337159cefd99a0809c78e3a">   13</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="struct_movie.html#a51d31331e337159cefd99a0809c78e3a">movie_id</a>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="struct_movie.html#ab24997e15cb36af8a45d3bf3e3fd82e1">   14</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="struct_movie.html#ab24997e15cb36af8a45d3bf3e3fd82e1">titleType</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="struct_movie.html#aa2bc2d5a07cdabb311e429dc81e61f89">   15</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="struct_movie.html#aa2bc2d5a07cdabb311e429dc81e61f89">primaryTitle</a>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="struct_movie.html#af56113a47530a73a2b42733ecb3404d5">   16</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="struct_movie.html#af56113a47530a73a2b42733ecb3404d5">originalTitle</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="struct_movie.html#a26bfe703a5cda590d946329083093742">   17</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_movie.html#a26bfe703a5cda590d946329083093742">isAdult</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="struct_movie.html#a71d3909ed695bd033e056181140d4a51">   18</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_movie.html#a71d3909ed695bd033e056181140d4a51">startYear</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="struct_movie.html#a59c9cee9387cb686b1a2d1ae7484f4be">   19</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_movie.html#a59c9cee9387cb686b1a2d1ae7484f4be">endYear</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="struct_movie.html#a12ecf5cfcb55c919f64578b667ee585c">   20</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_movie.html#a12ecf5cfcb55c919f64578b667ee585c">runtimeMinutes</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;} <a class="code" href="struct_movie.html">Movie</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="struct_actor.html">   23</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct  </span>{</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="struct_actor.html#a13fe43afa78ab142c9f1c3d106957c19">   24</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="struct_actor.html#a13fe43afa78ab142c9f1c3d106957c19">actor_id</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="struct_actor.html#aed2db65d3c69a22b908b571c00540aaf">   25</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="struct_actor.html#aed2db65d3c69a22b908b571c00540aaf">primaryName</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="struct_actor.html#a30e156f57e9505356489c0829d50bcd7">   26</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_actor.html#a30e156f57e9505356489c0829d50bcd7">birthYear</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="struct_actor.html#a751fb66bb436f80d2128cf61125b1c2f">   27</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_actor.html#a751fb66bb436f80d2128cf61125b1c2f">deathYear</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;} <a class="code" href="struct_actor.html">Actor</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">int</span> <a class="code" href="display_2main_8h.html#ae249aa44396558ba330fcc187770eaec">DbQuery</a>(<span class="keywordtype">char</span>* sql);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">int</span> <a class="code" href="display_2main_8h.html#a57fdb20d13a9132ccad1393ab0310117">DbConnect</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">int</span> <a class="code" href="display_2main_8h.html#aaf970157c29051e078655f59116e9e13">DbDisconnect</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#endif //PL_MAIN_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="astruct_actor_html_aed2db65d3c69a22b908b571c00540aaf"><div class="ttname"><a href="struct_actor.html#aed2db65d3c69a22b908b571c00540aaf">Actor::primaryName</a></div><div class="ttdeci">char * primaryName</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00025">main.h:25</a></div></div>
+<div class="ttc" id="astruct_actor_html_a751fb66bb436f80d2128cf61125b1c2f"><div class="ttname"><a href="struct_actor.html#a751fb66bb436f80d2128cf61125b1c2f">Actor::deathYear</a></div><div class="ttdeci">int deathYear</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00027">main.h:27</a></div></div>
+<div class="ttc" id="astruct_actor_html"><div class="ttname"><a href="struct_actor.html">Actor</a></div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00023">main.h:23</a></div></div>
+<div class="ttc" id="astruct_movie_html_aa2bc2d5a07cdabb311e429dc81e61f89"><div class="ttname"><a href="struct_movie.html#aa2bc2d5a07cdabb311e429dc81e61f89">Movie::primaryTitle</a></div><div class="ttdeci">char * primaryTitle</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00015">main.h:15</a></div></div>
+<div class="ttc" id="astruct_movie_html_a12ecf5cfcb55c919f64578b667ee585c"><div class="ttname"><a href="struct_movie.html#a12ecf5cfcb55c919f64578b667ee585c">Movie::runtimeMinutes</a></div><div class="ttdeci">int runtimeMinutes</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00020">main.h:20</a></div></div>
+<div class="ttc" id="astruct_movie_html_a51d31331e337159cefd99a0809c78e3a"><div class="ttname"><a href="struct_movie.html#a51d31331e337159cefd99a0809c78e3a">Movie::movie_id</a></div><div class="ttdeci">char * movie_id</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00013">main.h:13</a></div></div>
+<div class="ttc" id="adisplay_2main_8h_html_a57fdb20d13a9132ccad1393ab0310117"><div class="ttname"><a href="display_2main_8h.html#a57fdb20d13a9132ccad1393ab0310117">DbConnect</a></div><div class="ttdeci">int DbConnect()</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8c_source.html#l00026">main.c:26</a></div></div>
+<div class="ttc" id="adisplay_2main_8h_html_aaf970157c29051e078655f59116e9e13"><div class="ttname"><a href="display_2main_8h.html#aaf970157c29051e078655f59116e9e13">DbDisconnect</a></div><div class="ttdeci">int DbDisconnect()</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8c_source.html#l00043">main.c:43</a></div></div>
+<div class="ttc" id="astruct_actor_html_a30e156f57e9505356489c0829d50bcd7"><div class="ttname"><a href="struct_actor.html#a30e156f57e9505356489c0829d50bcd7">Actor::birthYear</a></div><div class="ttdeci">int birthYear</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00026">main.h:26</a></div></div>
+<div class="ttc" id="astruct_movie_html_a26bfe703a5cda590d946329083093742"><div class="ttname"><a href="struct_movie.html#a26bfe703a5cda590d946329083093742">Movie::isAdult</a></div><div class="ttdeci">int isAdult</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00017">main.h:17</a></div></div>
+<div class="ttc" id="astruct_movie_html_a59c9cee9387cb686b1a2d1ae7484f4be"><div class="ttname"><a href="struct_movie.html#a59c9cee9387cb686b1a2d1ae7484f4be">Movie::endYear</a></div><div class="ttdeci">int endYear</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00019">main.h:19</a></div></div>
+<div class="ttc" id="adisplay_2main_8h_html_ae249aa44396558ba330fcc187770eaec"><div class="ttname"><a href="display_2main_8h.html#ae249aa44396558ba330fcc187770eaec">DbQuery</a></div><div class="ttdeci">int DbQuery(char *sql)</div><div class="ttdef"><b>Definition:</b> <a href="import_2main_8c_source.html#l00191">main.c:191</a></div></div>
+<div class="ttc" id="astruct_movie_html_ab24997e15cb36af8a45d3bf3e3fd82e1"><div class="ttname"><a href="struct_movie.html#ab24997e15cb36af8a45d3bf3e3fd82e1">Movie::titleType</a></div><div class="ttdeci">char * titleType</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00014">main.h:14</a></div></div>
+<div class="ttc" id="astruct_movie_html"><div class="ttname"><a href="struct_movie.html">Movie</a></div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00012">main.h:12</a></div></div>
+<div class="ttc" id="astruct_movie_html_af56113a47530a73a2b42733ecb3404d5"><div class="ttname"><a href="struct_movie.html#af56113a47530a73a2b42733ecb3404d5">Movie::originalTitle</a></div><div class="ttdeci">char * originalTitle</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00016">main.h:16</a></div></div>
+<div class="ttc" id="astruct_actor_html_a13fe43afa78ab142c9f1c3d106957c19"><div class="ttname"><a href="struct_actor.html#a13fe43afa78ab142c9f1c3d106957c19">Actor::actor_id</a></div><div class="ttdeci">char * actor_id</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00024">main.h:24</a></div></div>
+<div class="ttc" id="astruct_movie_html_a71d3909ed695bd033e056181140d4a51"><div class="ttname"><a href="struct_movie.html#a71d3909ed695bd033e056181140d4a51">Movie::startYear</a></div><div class="ttdeci">int startYear</div><div class="ttdef"><b>Definition:</b> <a href="display_2main_8h_source.html#l00018">main.h:18</a></div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Gerado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.16
+</small></address>
+</body>
+</html>

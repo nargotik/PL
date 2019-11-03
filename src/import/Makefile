@@ -15,7 +15,7 @@ all: clean flex_generated.c
 flex_generated.c:
 	flex -ll -t main.l > flex_generated.c
 	#flex  -ll -t main.l > flex_generated.c
-	
+
 clean:
 	rm -f bin/build
 	rm -f flex_generated.c

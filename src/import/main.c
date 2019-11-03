@@ -1,3 +1,16 @@
+/**
+ * @file main.c
+ * @author
+ *  - José Moura <a13742|at|alunos.ipca.pt>
+ *  - Óscar Silva <a14383|at|alunos.ipca.pt>
+ *  - Daniel Filipe <a17442|at|alunos.ipca.pt>
+ * @date 17 Out 2019
+ * @brief
+ * Ficheiro c aplicação
+ * Esta aplicação irá utilizar o ficheiro main.l
+ * @see main.l
+ */
+
 #include <sqlite3.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,38 +19,69 @@
 
 sqlite3 *db;
 sqlite3_stmt *stmt;
+/**
+ * @brief
+ *
+ */
 int rc;
+
+/**
+ * @brief Query de inserção de um actor tabela [actors]
+ */
 const char insert_sql_actor[]  = "INSERT INTO actors(actor_id,primaryName,birthYear,deathYear) VALUES (?, ?, ?, ?)";
+/**
+ * @brief Query de inserção de uma profissão em um actor tabela [actors_profession]
+ * o IGNORE serve para no caso de já haver uma entrada na tabela para aquele actor não dar erro
+ */
 const char insert_sql_actors_profession[]  = "INSERT OR IGNORE INTO actors_profession(actor_id,profession) VALUES (?, ?)";
+/**
+ * @brief Query de inserção de um filme em um actor tabela [actors_movies]
+ * o IGNORE serve para no caso de já haver uma entrada na tabela para aquele actor não dar erro
+ */
 const char insert_sql_actors_movies[]  = "INSERT OR IGNORE INTO actors_movies(actor_id,movie_id) VALUES (?, ?)";
+/**
+ * @brief Query de inserção de um filme tabela [movies]
+ */
 const char insert_sql_movie[]  = "INSERT INTO movies(movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes)"
                           "                  VALUES (?, ?, ?, ?, ? ,? ,? ,?)";
+/**
+ * @brief Query de inserção de um genero de filme relativo a um filme tabla [movies_genres]
+ */
 const char insert_sql_movies_genres[]  = "INSERT INTO movies_genres(movie_id,genre) VALUES (?, ?)";
 
+/**
+ * @brief
+ * Numero de filmes inseridos e numero de actores inseridos
+ */
 int nr_movies=0,nr_actors=0;
 
-/* Variavel para controlar o numero de inserts entre COMITS*/
+/**
+ * @brief Variavel para controlar o numero de inserts entre COMITS
+ */
 int sql_inserts = 0;
 int sql_inserts_row = 0;
-/* Numero de inserts entre COMITS*/
+
+/**
+ * @brief Numero de inserts entre COMITS
+ */
 const int sql_inserts_by_commit = 200000;
 
 extern int yylex();
 
 /**
- * todo documentar
- * @param _movie
- * @param Genre
- * @return
+ * @brief
+ * Função que insere um genero a um filme utiliza a query
+ * @see insert_sql_movies_genres
+ * @param _movie Estrutura com um filme
+ * @param Genre String de um genero
+ * @return 1 se ok
  */
 int insertMovieGenre(Movie _movie, char* Genre) {
 
     if (strlen(Genre) == 0)
         return 1;
     insertsCommit();
-    // Insere na tabela actors
     sqlite3_stmt *res;
-    //movie_id,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes
     rc = sqlite3_prepare_v2(db, insert_sql_movies_genres, -1, &res, 0);
     if (rc == SQLITE_OK) {
         sqlite3_bind_text(res, 1, _movie.movie_id,strlen(_movie.movie_id), NULL);
@@ -59,9 +103,11 @@ int insertMovieGenre(Movie _movie, char* Genre) {
 }
 
 /**
- * todo documentar
- * @param _movie
- * @return
+ * @brief
+ * Função de inserção de um filme
+ * @see insert_sql_movie
+ * @param _movie Estrutura de um filme do tipo Movie
+ * @return Inteiro 1 se Inseriu
  */
 int insertMovie(Movie _movie) {
     nr_movies++;
@@ -94,10 +140,12 @@ int insertMovie(Movie _movie) {
 }
 
 /**
- * todo documentar
- * @param _actor
- * @param _profession
- * @return
+ * @brief
+ * Inserção de uma profissão em um actor
+ * @see insert_sql_actors_profession
+ * @param _actor Estrutura com um actor do tipo <Actor>
+ * @param _profession String da Profissão
+ * @return Inteiro 1 se inseriu
  */
 int insertActorProfession(Actor _actor, char* _profession) {
     if (strlen(_profession  ) == 0)
@@ -124,10 +172,13 @@ int insertActorProfession(Actor _actor, char* _profession) {
 }
 
 /**
- * todo documentar
- * @param _actor
- * @param _movie
- * @return
+ * @brief
+ * Insere um filme em que um actor tenha participado
+ * @see insert_sql_actors_movies
+ * @see Actor
+ * @param _actor Estrutura com um actor do tipo <Actor>
+ * @param _movie String com o id do filme
+ * @return 1 Se inserido
  */
 int insertActorMovie(Actor _actor, char* _movie) {
     if (strlen(_movie) == 0)
@@ -154,13 +205,15 @@ int insertActorMovie(Actor _actor, char* _movie) {
 }
 
 /**
- * todo documentar
- * @param _actor
- * @return
+ * @brief
+ * Insere um actor na tabela actors
+ * @see insert_sql_actor
+ * @see Actor
+ * @param _actor Estrutura com um actor do tipo <Actor>
+ * @return 1 se Inserido
  */
 int insertActor(Actor _actor) {
     nr_actors++;
-    // nm0000001	Fred Astaire	1899	1987	soundtrack,actor,miscellaneous	tt0072308,tt0043044,tt0050419,tt0053137
     insertsCommit();
     // Insere na tabela actors
     sqlite3_stmt *res;
@@ -184,8 +237,10 @@ int insertActor(Actor _actor) {
 }
 
 /**
- * todo documentar
- * @param sql
+ * @brief
+ * Executa uma query na base de dados
+ * @param sql srting da query
+ * @see DbInitialize
  * @return
  */
 int DbQuery(char* sql) {
@@ -202,6 +257,7 @@ int DbQuery(char* sql) {
 }
 
 /**
+ * @brief
  * Inicializa a base de dados
  */
 void DbInitialize() {
@@ -254,15 +310,15 @@ void DbInitialize() {
                 "    PRIMARY KEY (actor_id , movie_id )\n"
                 ");\n"
                 "COMMIT;";
-
-
-
     DbQuery(sql);
 
 }
 
 /**
+ * @brief
  * Faz commits a cada [sql_inserts_by_commit] iterações
+ * @see sql_inserts_by_commit
+ * @see sql_inserts
  */
 void insertsCommit() {
     sql_inserts++;
@@ -281,7 +337,10 @@ void insertsCommit() {
 }
 
 /**
+ * @brief
  * Conecta à base de dados [DATABASE]
+ * @todo check rc bug
+ * @see rc
  * @return success=1 / fail != 1
  */
 int DbConnect() {
@@ -298,7 +357,9 @@ int DbConnect() {
 }
 
 /**
+ * @brief
  * Disconecta da base de dados
+ * @see DbConnect
  * @return success=1 / fail != 1
  */
 int DbDisconnect() {
@@ -306,7 +367,11 @@ int DbDisconnect() {
     return 1;
 }
 
-
+/**
+ * @brief
+ * Main function
+ * @return 1 se erro
+ */
 int main()
 {
     if (!DbConnect()) {

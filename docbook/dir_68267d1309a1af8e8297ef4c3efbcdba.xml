@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_dir_68267d1309a1af8e8297ef4c3efbcdba">
+<title>Referência do diretório src</title>
+<indexterm><primary>Referência do diretório src</primary></indexterm>
+<simplesect>
+    <title>Diretórios    </title>
+        <itemizedlist>
+            <listitem><para>diretório <link linkend="_dir_25685f9c6d837c57f295dee081495707">display</link></para>
+</listitem>
+            <listitem><para>diretório <link linkend="_dir_e3c1e5468dd7bba3296c8521f7373a77">import</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

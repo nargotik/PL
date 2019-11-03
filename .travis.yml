@@ -1,5 +1,23 @@
+branches:
+  only:
+    - master
+
+addons:
+  apt:
+    packages:
+      - doxygen
+
 script:
   - make
-  - ./bin/import < test_file.tsv
+  - make run_import
   - ls -la *
-  - ./bin/display
+  - make run_display
+  - doxygen Doxyfile
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs/html
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: master

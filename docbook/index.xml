@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_index">
+    <info>
+    <title>Processamento de Linguagens</title>
+    </info>
+<chapter>
+    <title>Trabalho Prático de PL</title>
+    <xi:include href="mainpage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Lista de tarefas</title>
+    <xi:include href="dd/da0/todo.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Documentação da classe</title>
+    <xi:include href="da/d35/struct_actor.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="d1/d40/struct_movie.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Documentação do ficheiro</title>
+    <xi:include href="d0/d20/readme_8md.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="d5/d66/display_2main_8c.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="d6/d2f/import_2main_8c.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="d5/d6f/display_2main_8h.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="d9/de3/import_2main_8h.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="d1/d41/main_8l.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<index/>
+</book>

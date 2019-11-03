@@ -1,3 +1,15 @@
+/**
+ * @file main.c
+ * @author
+ *  - José Moura <a13742|at|alunos.ipca.pt>
+ *  - Óscar Silva <a14383|at|alunos.ipca.pt>
+ *  - Daniel Filipe <a17442|at|alunos.ipca.pt>
+ * @date 30 Out 2019
+ * @brief
+ * Esta aplicação mostra o conteudo da base de dados [DATABASE]
+ * Essa informação é proveniente de 2 queries
+ */
+
 #include <sqlite3.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,7 +19,16 @@
 sqlite3 *db;
 sqlite3_stmt *stmt;
 int rc;
+/**
+ * @brief
+ * Query que extrai os actores ordenados por nome
+ */
 const char select_actor[]  = "SELECT actor_id,primaryName FROM actors ORDER BY primaryName ASC";
+
+/**
+ * @brief
+ * Query que extrai os filmes de um determinado actor
+ */
 const char select_movies_actor[]  = "SELECT movies.movie_id,originalTitle FROM "
                                     "actors_movies, movies "
                                     "WHERE actor_id = ? "
@@ -20,8 +41,9 @@ int DbDisconnect();
 void showActorsAndMovies();
 
 /**
- *
- * @return
+ * @brief
+ * Conecta à base de dados
+ * @return 1|0
  */
 int DbConnect() {
 
@@ -37,14 +59,20 @@ int DbConnect() {
 }
 
 /**
- *
- * @return
+ * @brief
+ * Disconecta da Base de dados
+ * @return 1|0
  */
 int DbDisconnect() {
     sqlite3_close(db);
     return 1;
 }
 
+/**
+ * @brief
+ * Função main da aplicação
+ * @return
+ */
 int main()
 {
     if (!DbConnect()) {
@@ -59,6 +87,10 @@ int main()
     return 0;
 }
 
+/**
+ * @brief
+ * Mostra os actores e itera cada actor
+ */
 void showActorsAndMovies() {
     printf("Showing info from database\n\n");
     sqlite3_stmt *stmt;
@@ -77,7 +109,11 @@ void showActorsAndMovies() {
     sqlite3_finalize(stmt);
 }
 
-
+/**
+ * @brief
+ * Mostra os filmes do actor passado no parametro e itera os filmes
+ * @param actor_id id do actor
+ */
 void showActorMovies(char* actor_id) {
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, select_movies_actor, -1, &stmt, NULL)) {
