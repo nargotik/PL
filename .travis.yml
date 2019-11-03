@@ -24,8 +24,6 @@ branches:
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - texlive
       - texlive-latex-extra
@@ -33,10 +31,6 @@ addons:
 
 script:
   - doxygen Doxyfile
-  - cd docs/latex && make
-  - cd ../../
-  - mv docs/latex/refman.pdf docs/html/Documentation.pdf
-  - rm -r docs/latex
   - make
   - make run_import
   - ls -la *
