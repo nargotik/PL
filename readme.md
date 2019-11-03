@@ -16,6 +16,7 @@ O presente software foi desenvolvido no contexto académico e deve ser utilizado
 ## Introdução
 Para a realização deste trabalho foram utilizadas as ferramentas abaixo descritas:
 - flex (versão 2.6.0)
+- libfl-dev
 - libsqlite3-dev
 - sqlite3 (Opcional) 
 
