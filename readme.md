@@ -83,9 +83,11 @@ Após testes feito em uma máquina virtual Ubuntu com 8Gb de RAM verificamos que
 - Actores - 20 Minutos
 
 ## Diagrama da estrutura do flex utilizado.
-imagem WC_Movie
+
+![Diagrama Movie](https://github.com/nargotik/PL/blob/master/images/WC_Movie.png?raw=true)
 @todo - Explicar as regex
 
+![Diagrama Actor](https://github.com/nargotik/PL/blob/master/images/WC_Actor.png?raw=true)
 imagem WC_Actor
 @todo - Explicar as regex
 
