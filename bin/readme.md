@@ -83,33 +83,11 @@ Após testes feito em uma máquina virtual Ubuntu com 8Gb de RAM verificamos que
 - Actores - 20 Minutos
 
 ## Diagrama da estrutura do flex utilizado.
-@todo explicar o abaixo
+imagem WC_Movie
+@todo - Explicar as regex
 
-- INITIAL
-
-- MOVIE 
-    - MOVIE_movie_id 
-        - MOVIE_titleType
-            - MOVIE_primaryTitle 
-                - MOVIE_originalTitle 
-                    - MOVIE_isAdult 
-                        - MOVIE_startYear 
-                            - MOVIE_endYear 
-                                - MOVIE_runtimeMinutes 
-                                    - MOVIE_genres 
-                                        - MOVIE_genres
-                                   
-- ACTOR
-    - ACTOR_actor_id
-        - ACTOR_primaryName
-            - ACTOR_birthYear
-                - ACTOR_deathYear
-                    - ACTOR_primaryProfession
-                        - ACTOR_primaryProfession
-                            - ACTOR_knownForTitles
-                                - ACTOR_knownForTitles
-
-- <\<EOF\>>
+imagem WC_Actor
+@todo - Explicar as regex
 
 ## Estrutura de Base de dados:
 ```sql

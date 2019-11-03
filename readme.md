@@ -1,13 +1,13 @@
-# Trabalho Prático de PL
+﻿# Trabalho Prático de PL
 
 O presente software foi desenvolvido no contexto académico e deve ser utilizado sem qualquer garantia por conta e risco do utilizador. 
 
 [![Build Status](https://travis-ci.com/nargotik/PL.svg?token=qNfqiYyxNzmWoPqpyHnZ&branch=master)](https://travis-ci.com/nargotik/PL)
 
 **Autores:** 
-- Óscar Silva <a14383@alunos.ipca.pt>
+ - José Moura <a13742@alunos.ipca.pt>
+- Óscar Silva   <a14383@alunos.ipca.pt>
 - Daniel Filipe <a17442@alunos.ipca.pt>
-- José Moura <a13742@alunos.ipca.pt> @todo
 
 ## Introdução
 Para a realização deste trabalho foram utilizadas as ferramentas abaixo descritas:
@@ -19,11 +19,11 @@ Utilizamos uma motor de base de dados simples (sqlite) de forma a importar toda 
 para a base de dados e poder efectuar consultas de qualquer informação directamente na base de dados.
 
 ## Requisitos
-Libs necessárias instalação em ubuntu (pode variar com outras distribuições)
+Libs necessárias instalação em Ubuntu (pode variar com outras distribuições)
 ```shell script
 apt-get install libsqlite3-dev
 ```
-Existe a necessidade de pelo menos 2Gb de memoria RAM para processar o ficheiro de teste fornecido pelo professor.
+Existe a necessidade de, pelo menos, 2Gb de memoria RAM para processar o ficheiro de teste fornecido pelo professor.
 ## Utilização / Compilação
 Para compilar as aplicações necessárias simplesmente é necessário efectuar o comando:
 ```shell script
@@ -78,37 +78,16 @@ Showing info from database
 * Ursula Gehrmann
 utilizador@lesi-ipca:~/PL$ 
 ```
-Após testes feito em uma maquina virtual ubuntu com 8Gb de ram verificamos que o tratamento do ficheiro fornecido pelo professor e colocação desses dados em base de dados demorou:
+Após testes feito em uma máquina virtual Ubuntu com 8Gb de RAM verificamos que o tratamento do ficheiro fornecido pelo professor e colocação desses dados em base de dados demorou:
 - Filmes - 4 Minutos
 - Actores - 20 Minutos
 
 ## Diagrama da estrutura do flex utilizado.
-@todo explicar o abaixo
+imagem WC_Movie
+@todo - Explicar as regex
 
-- INITIAL
-
-- MOVIE 
-    - MOVIE_movie_id 
-        - MOVIE_titleType
-            - MOVIE_primaryTitle 
-                - MOVIE_originalTitle 
-                    - MOVIE_isAdult 
-                        - MOVIE_startYear 
-                            - MOVIE_endYear 
-                                - MOVIE_runtimeMinutes 
-                                    - MOVIE_genres 
-                                        - MOVIE_genres
-- ACTOR
-    - ACTOR_actor_id
-        - ACTOR_primaryName
-            - ACTOR_birthYear
-                - ACTOR_deathYear
-                    - ACTOR_primaryProfession
-                        - ACTOR_primaryProfession
-                            - ACTOR_knownForTitles
-                                - ACTOR_knownForTitles
-
-- <\<EOF\>>
+imagem WC_Actor
+@todo - Explicar as regex
 
 ## Estrutura de Base de dados:
 ```sql
@@ -156,17 +135,17 @@ CREATE TABLE actors_movies (
 ```
 
 ## Conclusão
-Podemos mostrar desta forma a importancia das expressões regulares e aplicações do 
-genero do flex pois conseguimos tratar de um enorme ficheiro com 18 milhoes de registos e colocar numa base de dados para tratamento posterior e armazenamento dos dados.
+Podemos mostrar desta forma a importância das expressões regulares e aplicações do 
+género do flex pois conseguimos tratar de um enorme ficheiro com 18 milhões de registos e colocar numa base de dados para tratamento posterior e armazenamento dos dados.
 
-Hoje em dia cada vez mais há necesidades de migração de sistemas antigos ou de dados para sistemas organizados do genero de bases de dados e podemos utilizar esta ferramenta flex como outras ferramentas que utilizem expressões regulares.
+Hoje em dia cada vez mais há necessidades de migração de sistemas antigos ou de dados para sistemas organizados do género de bases de dados e podemos utilizar esta ferramenta flex como outras ferramentas que utilizem expressões regulares.
 
 Assim sendo tarefas como data minning podem ser muito utilizadas com o uso de expressões regulares.
 
 Abaixo mostramos alguns exemplo de dados complexos que podemos retirar depois de ter a informação normalizada.
 
 #### Exemplos de extração de dados:
-Se quisermos saber o numero de actores que participaram em filmes de drama realizados em 2012
+Se quisermos saber o número de actores que participaram em filmes de drama realizados em 2012
 Bastará correr esta Query SQL.
 ```sql
 SELECT Sum(filmes) 
