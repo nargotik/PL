@@ -1,5 +1,5 @@
 os: linux
-dist: trusty
+dist: bionic
 language: cpp
 
 sudo: enabled
@@ -29,7 +29,6 @@ addons:
     packages:
       - texlive
       - texlive-latex-extra
-      - libclang
 
 
 script:
