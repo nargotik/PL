@@ -5,14 +5,16 @@ sudo: enabled
 branches:
   only:
     - master
-- os: linux
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y doxygen texlive texlive-latex-extra
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - doxygen
+      - texlive
+      - texlive-latex-extra
+
 
 script:
   - doxygen Doxyfile
