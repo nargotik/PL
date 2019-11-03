@@ -7,7 +7,7 @@ O presente software foi desenvolvido no contexto académico e deve ser utilizado
 **Autores:** 
 - Óscar Silva <a14383@alunos.ipca.pt>
 - Daniel Filipe <a17442@alunos.ipca.pt>
-- José Moura <aXXXXX@alunos.ipca.pt> @todo
+- José Moura <a13742@alunos.ipca.pt> @todo
 
 ## Introdução
 Para a realização deste trabalho foram utilizadas as ferramentas abaixo descritas:
