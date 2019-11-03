@@ -5,8 +5,8 @@ O presente software foi desenvolvido no contexto académico e deve ser utilizado
 [![Build Status](https://travis-ci.com/nargotik/PL.svg?token=qNfqiYyxNzmWoPqpyHnZ&branch=master)](https://travis-ci.com/nargotik/PL)
 
 **Autores:** 
- - José Moura <a13742@alunos.ipca.pt>
-- Óscar Silva   <a14383@alunos.ipca.pt>
+- José Moura <a13742@alunos.ipca.pt>
+- Óscar Silva <a14383@alunos.ipca.pt>
 - Daniel Filipe <a17442@alunos.ipca.pt>
 
 ## Introdução
@@ -82,14 +82,19 @@ Após testes feito em uma máquina virtual Ubuntu com 8Gb de RAM verificamos que
 - Filmes - 4 Minutos
 - Actores - 20 Minutos
 
-## Diagrama da estrutura do flex utilizado.
 
-![Diagrama Movie](https://github.com/nargotik/PL/blob/master/images/WC_Movie.png?raw=true)
-@todo - Explicar as regex
 
-![Diagrama Actor](https://github.com/nargotik/PL/blob/master/images/WC_Actor.png?raw=true)
-imagem WC_Actor
-@todo - Explicar as regex
+## Estrutura de flex
+### Extração de Filmes
+@todo - Explicar a abordagem
+![Diagrama Movie](images/WC_Movie.png)
+
+---
+### Extração de Actores
+@todo - Explicar a abordagem
+![Diagrama Actor](images/WC_Actor.png)
+
+---
 
 ## Estrutura de Base de dados:
 ```sql
