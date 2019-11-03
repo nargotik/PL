@@ -8,11 +8,11 @@ addons:
       - doxygen
 
 script:
+  - doxygen Doxyfile
   - make
   - make run_import
   - ls -la *
   - make run_display
-  - doxygen Doxyfile
 
 deploy:
   provider: pages
