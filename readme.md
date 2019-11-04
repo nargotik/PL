@@ -237,5 +237,5 @@ FROM   (
 ```
 
 
-## Bibliografia
+## Bibliografia / Referências
 - [GitHub Flex](https://github.com/westes/flex)
