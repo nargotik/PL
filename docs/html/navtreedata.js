@@ -39,7 +39,7 @@ var NAVTREE =
       ] ],
       [ "Estrutura de Base de dados:", "index.html#autotoc_md13", null ],
       [ "Conclusão", "index.html#autotoc_md14", null ],
-      [ "Bibliografia", "index.html#autotoc_md16", null ]
+      [ "Bibliografia / Referências", "index.html#autotoc_md16", null ]
     ] ],
     [ "Estruturas de dados", "annotated.html", [
       [ "Estruturas de dados", "annotated.html", "annotated_dup" ],
