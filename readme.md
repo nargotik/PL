@@ -20,7 +20,7 @@ Para a realização deste trabalho foram utilizadas as ferramentas abaixo descri
 - libsqlite3-dev
 - sqlite3 (Opcional) 
 
-Utilizamos uma motor de base de dados simples (sqlite) de forma a importar toda a informação contida no ficheiro de teste 
+Utilizamos um motor de base de dados simples (sqlite) de forma a importar toda a informação contida no ficheiro de teste 
 para a base de dados e poder efectuar consultas de qualquer informação directamente na base de dados.
 
 ## Requisitos
@@ -133,7 +133,7 @@ Por fim este ciclo é terminado ao encontrar um <[enter]> para o caso de ser fil
 
 #### Diagrama
 
-![Diagrama Movie](images/WC_Movie.png)
+![Diagrama Movie](https://github.com/nargotik/PL/raw/master/images/WC_Movie.png)
 
 ---
 
@@ -181,7 +181,7 @@ Por fim este ciclo é terminado ou ao encontrar um <[tab]> ou um <[enter]> para 
 
 #### Diagrama
 
-![Diagrama Actor](images/WC_Actor.png)
+![Diagrama Actor](https://github.com/nargotik/PL/raw/master/images/WC_Actor.png)
 
 ---
 
