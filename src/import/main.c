@@ -21,7 +21,7 @@ sqlite3 *db;
 sqlite3_stmt *stmt;
 /**
  * @brief
- *
+ * Identificador da Base de dados
  */
 int rc;
 
@@ -339,13 +339,11 @@ void insertsCommit() {
 /**
  * @brief
  * Conecta à base de dados [DATABASE]
- * @todo check rc bug
  * @see rc
  * @return success=1 / fail != 1
  */
 int DbConnect() {
 
-    int rc;
     rc = sqlite3_open_v2(DATABASE, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL );
 
     if (rc != SQLITE_OK) {
