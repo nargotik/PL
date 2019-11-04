@@ -132,8 +132,11 @@ A expressão abaixo encontra tudo o que não tenha um <[tab]>, <[virgula]> e ter
 Por fim este ciclo é terminado ao encontrar um <[enter]> para o caso de ser filme.
 
 #### Diagrama
+
 ![Diagrama Movie](images/WC_Movie.png)
+
 ---
+
 ### Extração de Actores
 #### Resumo
 
@@ -177,6 +180,7 @@ Por fim este ciclo é terminado ou ao encontrar um <[tab]> ou um <[enter]> para 
 
 
 #### Diagrama
+
 ![Diagrama Actor](images/WC_Actor.png)
 
 ---
