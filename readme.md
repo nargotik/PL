@@ -20,8 +20,7 @@ Para a realização deste trabalho foram utilizadas as ferramentas abaixo descri
 - libsqlite3-dev
 - sqlite3 (Opcional) 
 
-Utilizamos um motor de base de dados simples (sqlite) de forma a importar toda a informação contida no ficheiro de teste 
-para a base de dados e poder efectuar consultas de qualquer informação directamente na base de dados.
+Utilizamos um motor de base de dados simples (sqlite) de forma a importar toda a informação contida no ficheiro de teste para a base de dados e poder efectuar consultas de qualquer informação directamente na base de dados.
 
 ## Requisitos
 Libs necessárias instalação em Ubuntu (pode variar com outras distribuições)
@@ -93,17 +92,10 @@ Após testes feito em uma máquina virtual Ubuntu com 8Gb de RAM verificamos que
 
 ### Extração de Filmes
 #### Resumo
-O reconhecimento dos dados referentes a filmes e séries do ficheiro de testes 
-fornecido pelo professor faz-se através prefixo **```tt```** sendo este seguido por 
-uma sequência finita de algarismos e a cada *tabulação* é encontrada uma 
-característica referente ao filme (p.ex. título, se é para adultos, etc).
+O reconhecimento dos dados referentes a filmes e séries do ficheiro de testes fornecido pelo professor faz-se através prefixo **```tt```** sendo este seguido por uma sequência finita de algarismos e a cada *tabulação* é encontrada uma característica referente ao filme (p.ex. título, se é para adultos, etc).
 
-Inicialmente, para reconhecer no ficheiro os dados referentes a filmes e 
-séries foi usada a expressão **```^tt```** que permite identificar, 
-irrevogavelmente que aquela string possui dados referentes a filmes e séries.
-Após reconhecer-la é necessário identificar dentro da string os diversos 
-dados que caracterizam o filme. Para tal foi definido o seguinte bloco de 
-instruções com a finalidade ir guardando os dados referentes a um filme antes de o inserir na base de dados.
+Inicialmente, para reconhecer no ficheiro os dados referentes a filmes e séries foi usada a expressão **```^tt```** que permite identificar, irrevogavelmente que aquela string possui dados referentes a filmes e séries.
+Após reconhecer-la é necessário identificar dentro da string os diversos dados que caracterizam o filme. Para tal foi definido o seguinte bloco de instruções com a finalidade ir guardando os dados referentes a um filme antes de o inserir na base de dados.
 
 ```c
     tmp_movie.movie_id = "";
@@ -123,8 +115,7 @@ O reconhecimento desse dado é obtido através da expressão **```[^\t]+\t```**.
 
 Analogamente ao que foi definido para o campo que identifica o tipo de conteúdo, os restantes campos a reconhecer seguem a mesma expressão de reconhecimento, no entanto, a identificação do campo género carece de uma ligeira alteração na expressão.
 
-De forma a separar os generos dos filmes que estão divididos por **([,] - Virgulas)**
-é efectuada a separação da seguinte forma:
+De forma a separar os generos dos filmes que estão divididos por **([,] - Virgulas)** é efectuada a separação da seguinte forma:
 A expressão abaixo encontra tudo o que não tenha um <[tab]>, <[virgula]> e termine com uma <[virgula]>
 ```regexp
 [^\t\,])+\,
@@ -140,17 +131,10 @@ Por fim este ciclo é terminado ao encontrar um <[enter]> para o caso de ser fil
 ### Extração de Actores
 #### Resumo
 
-O reconhecimento dos dados referentes a actores do ficheiro de testes fornecido pelo 
-professor faz-se através prefixo **```nm```** sendo este seguido por uma sequência finita de 
-algarismos e a cada *tabulação* é encontrada uma característica referente ao actor 
-(p.ex. nome, data de nascimento e falecimento, etc).
+O reconhecimento dos dados referentes a actores do ficheiro de testes fornecido pelo professor faz-se através prefixo **```nm```** sendo este seguido por uma sequência finita de algarismos e a cada *tabulação* é encontrada uma característica referente ao actor (p.ex. nome, data de nascimento e falecimento, etc).
 
-Inicialmente, para reconhecer no ficheiro os dados referentes a actores foi usada a expressão 
-**```^nm```** que permite identificar, irrevogavelmente que aquela linha possui 
-dados referentes a actores.
-Após reconhecer-la é necessário identificar dentro da string os diversos dados que 
-caracterizam o actor. Para tal foi definido o seguinte bloco de instruções com a 
-finalidade ajudar ir guardando os dados referentes a um actor antes de o interir na base de dados.
+Inicialmente, para reconhecer no ficheiro os dados referentes a actores foi usada a expressão **```^nm```** que permite identificar, irrevogavelmente que aquela linha possui dados referentes a actores.
+Após reconhecer-la é necessário identificar dentro da string os diversos dados que caracterizam o actor. Para tal foi definido o seguinte bloco de instruções com a finalidade ajudar ir guardando os dados referentes a um actor antes de o interir na base de dados.
 ```c
     tmp_actor.actor_id = "";
     tmp_actor.primaryName = "";
@@ -159,19 +143,12 @@ finalidade ajudar ir guardando os dados referentes a um actor antes de o interir
 ```
 Após a iniciação dessas variáveis, é necessário entrar num modo que permita reconhecer padrões apenas sobre a string reconhecida acima. Para tal usa-se o comando **BEGIN(ACTOR_x)** sendo x substituído pelo campo que pretendemos reconhecer.
 
-O primeiro dado a reconhecer é o ID do actor. Para tal foi usada a expressão **```[0-9]+\t```** que 
-permite reconhecer a cadeia de algarismos que são precedidas por nm e que terminam numa tabulação.
+O primeiro dado a reconhecer é o ID do actor. Para tal foi usada a expressão **```[0-9]+\t```** que permite reconhecer a cadeia de algarismos que são precedidas por nm e que terminam numa tabulação.
 Após esse reconhecimento, segue-se um BEGIN que permite reconhecer qual o nome do actor.
-O reconhecimento desse dado é obtido através da expressão **```[^\t]+\t```**. Essa expressão permite 
-identificar que, entre a tabulação reconhecida pela expressão anterior até à próxima tabulação, 
-o dado reconhecido será o que identifica o nome do actor.
-Analogamente ao que foi definido para o campo que identifica o nome do actor, os campos data de 
-nascimento e de falecimento serão reconhecidos através da mesma expressão de reconhecimento, 
-no entanto, a identificação do campo profissão principal e títulos pelos quais são reconhecidos 
-carecem de uma ligeira alteração na expressão.
+O reconhecimento desse dado é obtido através da expressão **```[^\t]+\t```**. Essa expressão permite identificar que, entre a tabulação reconhecida pela expressão anterior até à próxima tabulação, o dado reconhecido será o que identifica o nome do actor.
+Analogamente ao que foi definido para o campo que identifica o nome do actor, os campos data de nascimento e de falecimento serão reconhecidos através da mesma expressão de reconhecimento, no entanto, a identificação do campo profissão principal e títulos pelos quais são reconhecidos carecem de uma ligeira alteração na expressão.
 
-De forma a separar as profissões e os filmes que estão divididos por **([,] - Virgulas)**
-é efectuada a separação da seguinte forma:
+De forma a separar as profissões e os filmes que estão divididos por **([,] - Virgulas)** é efectuada a separação da seguinte forma:
 A expressão abaixo econtra tudo o que não tenha um <[tab]>, <[virgula]> e termine com uma <[virgula]>
 ```regexp
 [^\t\,])+\,
@@ -231,8 +208,7 @@ CREATE TABLE actors_movies (
 ```
 
 ## Conclusão
-Podemos mostrar desta forma a importância das expressões regulares e aplicações do 
-género do flex pois conseguimos tratar de um enorme ficheiro com 18 milhões de registos e colocar numa base de dados para tratamento posterior e armazenamento dos dados.
+Podemos mostrar desta forma a importância das expressões regulares e aplicações do género do flex pois conseguimos tratar de um enorme ficheiro com 18 milhões de registos e colocar numa base de dados para tratamento posterior e armazenamento dos dados.
 
 Hoje em dia cada vez mais há necessidades de migração de sistemas antigos ou de dados para sistemas organizados do género de bases de dados e podemos utilizar esta ferramenta flex como outras ferramentas que utilizem expressões regulares.
 
