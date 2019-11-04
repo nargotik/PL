@@ -103,10 +103,9 @@ séries foi usada a expressão **```^tt```** que permite identificar,
 irrevogavelmente que aquela string possui dados referentes a filmes e séries.
 Após reconhecer-la é necessário identificar dentro da string os diversos 
 dados que caracterizam o filme. Para tal foi definido o seguinte bloco de 
-instruções com a finalidade ajudar a identificar os dados referentes ao filme.
+instruções com a finalidade ir guardando os dados referentes a um filme antes de o inserir na base de dados.
 
 ```c
-    nr_movies++;
     tmp_movie.movie_id = "";
     tmp_movie.titleType = "";
     tmp_movie.primaryTitle = "";
@@ -134,9 +133,6 @@ Por fim este ciclo é terminado ao encontrar um <[enter]> para o caso de ser fil
 
 #### Diagrama
 ![Diagrama Movie](images/WC_Movie.png)
-
-
-
 ---
 ### Extração de Actores
 #### Resumo
@@ -147,14 +143,12 @@ algarismos e a cada *tabulação* é encontrada uma característica referente ao
 (p.ex. nome, data de nascimento e falecimento, etc).
 
 Inicialmente, para reconhecer no ficheiro os dados referentes a actores foi usada a expressão 
-**```^nm```** que permite identificar, irrevogavelmente que aquela string possui 
+**```^nm```** que permite identificar, irrevogavelmente que aquela linha possui 
 dados referentes a actores.
 Após reconhecer-la é necessário identificar dentro da string os diversos dados que 
 caracterizam o actor. Para tal foi definido o seguinte bloco de instruções com a 
-finalidade ajudar a identificar os dados referentes ao actor.
-
+finalidade ajudar ir guardando os dados referentes a um actor antes de o interir na base de dados.
 ```c
-    nr_actors++;
     tmp_actor.actor_id = "";
     tmp_actor.primaryName = "";
     tmp_actor.birthYear = 0;
